@@ -10,7 +10,6 @@
 > **Group Assignment:** Group#02 from Section B (2nd 30)  
 > **Assigned Scenario:** #32 – Smart Home Automation System  
 > **Process Model Selected:** Prototype Model  
-> **Marks:** 10 / 10 Target Grade  
 
 ---
 
@@ -103,22 +102,7 @@ flowchart TD
 
 ---
 
-## 🌿 GitHub Collaboration Workflow
 
-The team followed a production-grade 3-developer feature branch workflow:
-
-| Developer | Branch | Responsibility |
-|---|---|---|
-| **Member 1 (Lead)** | `member1-feature` | Requirement Analysis, REST API, JSON Data Persistence |
-| **Member 2** | `member2-feature` | Software Process Model Selection, Telemetry Engine, Automation Routines |
-| **Member 3** | `member3-feature` | Glassmorphism UI Dashboard, Chart.js Integration, Documentation & Report |
-
-### Pull Request History
-- **PR #1:** `member1-feature` ➔ `main` (Merge core REST API and data layer)
-- **PR #2:** `member2-feature` ➔ `main` (Merge IoT telemetry generator & routine engine)
-- **PR #3:** `member3-feature` ➔ `main` (Merge glassmorphism dashboard UI & documentation)
-
----
 
 ## 📄 License & Attribution
 
