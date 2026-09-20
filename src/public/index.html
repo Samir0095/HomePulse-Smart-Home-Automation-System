@@ -192,8 +192,38 @@
         </div>
       </section>
 
+      <!-- Live Security Surveillance Feed Section -->
+      <section class="panel-card security-section">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-video" style="color: var(--accent-orange);"></i> CCTV Surveillance Monitor</h3>
+          
+          <div class="cam-channels" id="cam-channels">
+            <button class="cam-btn active" data-cam="cam-1">Cam 1: Driveway</button>
+            <button class="cam-btn" data-cam="cam-2">Cam 2: Porch</button>
+            <button class="cam-btn" data-cam="cam-3">Cam 3: Garage</button>
+          </div>
+        </div>
+
+        <div class="camera-feed-container">
+          <div class="camera-viewport" id="camera-viewport">
+            <div class="cam-overlay-top">
+              <span class="cam-badge"><span class="pulse-dot-red"></span> LIVE 1080P</span>
+              <span class="cam-title" id="cam-active-title">CAM 01 — DRIVEWAY SECURITY</span>
+              <span class="cam-clock" id="cam-clock">2026-09-20 15:03:34</span>
+            </div>
+
+            <div class="motion-box" id="motion-box">
+              <span class="motion-label">MOTION DETECTED (VEHICLE)</span>
+            </div>
+
+            <div class="cam-grid-overlay"></div>
+          </div>
+        </div>
+      </section>
+
       <!-- Energy Analytics & Audit Logs Section -->
       <div class="two-column-grid">
+
         <section class="panel-card">
           <div class="panel-header">
             <h3><i class="fa-solid fa-chart-simple"></i> Live Energy Consumption Analytics</h3>

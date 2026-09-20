@@ -170,10 +170,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Render Controls based on Device Type
   function renderControlForDeviceType(dev, disabledAttr) {
     if (dev.type === 'light') {
+      const colors = ['#fffaed', '#00f2fe', '#f59e0b', '#10b981', '#ec4899'];
+      const activeColor = dev.color || '#fffaed';
+      const colorDots = colors.map(c => `
+        <span class="color-dot ${c === activeColor ? 'active' : ''} ${disabledAttr ? 'disabled' : ''}" 
+              data-id="${dev.id}" data-color="${c}" 
+              style="background-color: ${c}; box-shadow: 0 0 8px ${c}88;"></span>
+      `).join('');
+
       return `
         <div class="control-row">
           <span>Brightness: ${dev.brightness || 0}%</span>
           <input type="range" class="range-slider update-brightness" data-id="${dev.id}" min="0" max="100" value="${dev.brightness || 0}" ${disabledAttr}>
+        </div>
+        <div class="control-row" style="margin-top: 6px;">
+          <span>Color Mode:</span>
+          <div class="color-swatches">${colorDots}</div>
         </div>
       `;
     } else if (dev.type === 'thermostat') {
@@ -257,6 +269,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         await updateDeviceState(id, { brightness: val, status: val > 0 ? 'on' : 'off', updatedBy: currentUserRole });
       });
     });
+
+    // Color Swatch Selection
+    document.querySelectorAll('.color-dot').forEach(dot => {
+      dot.addEventListener('click', async () => {
+        if (currentUserRole === 'Guest') return;
+        const id = dot.getAttribute('data-id');
+        const color = dot.getAttribute('data-color');
+        await updateDeviceState(id, { color, status: 'on', updatedBy: currentUserRole });
+      });
+    });
+
 
     // Delete Device
     document.querySelectorAll('.btn-delete-device').forEach(btn => {
@@ -396,6 +419,45 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderDevices();
     });
   }
+
+  // CCTV Camera Channel Switcher
+  const camChannelsContainer = document.getElementById('cam-channels');
+  const camActiveTitle = document.getElementById('cam-active-title');
+  const camClock = document.getElementById('cam-clock');
+  const motionBox = document.getElementById('motion-box');
+
+  const camTitles = {
+    'cam-1': 'CAM 01 — DRIVEWAY SECURITY',
+    'cam-2': 'CAM 02 — FRONT PORCH ENTRANCE',
+    'cam-3': 'CAM 03 — GARAGE BAY & EXTERIOR'
+  };
+
+  const camMotions = {
+    'cam-1': 'MOTION DETECTED (VEHICLE)',
+    'cam-2': 'MOTION DETECTED (PERSON AT DOOR)',
+    'cam-3': 'NO MOTION DETECTED (CLEAR)'
+  };
+
+  if (camChannelsContainer) {
+    camChannelsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('cam-btn')) {
+        document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        const camId = e.target.getAttribute('data-cam');
+        if (camActiveTitle) camActiveTitle.innerText = camTitles[camId] || 'CAM MONITOR';
+        if (motionBox) motionBox.querySelector('.motion-label').innerText = camMotions[camId] || 'CLEAR';
+      }
+    });
+  }
+
+  // CCTV Clock Ticker
+  setInterval(() => {
+    if (camClock) {
+      const now = new Date();
+      camClock.innerText = now.toISOString().replace('T', ' ').substring(0, 19);
+    }
+  }, 1000);
+
 
 
   // Role Switcher Event Listener

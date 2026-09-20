@@ -632,6 +632,36 @@ input:checked + .slider:before {
   color: var(--text-muted);
 }
 
+.color-swatches {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.color-dot:hover {
+  transform: scale(1.2);
+}
+
+.color-dot.active {
+  border-color: #ffffff;
+  transform: scale(1.15);
+}
+
+.color-dot.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+
 .range-slider {
   width: 100%;
   accent-color: var(--primary);
@@ -654,6 +684,127 @@ input:checked + .slider:before {
   grid-template-columns: 3fr 2fr;
   gap: 20px;
 }
+
+/* CCTV Surveillance Monitor Styles */
+.cam-channels {
+  display: flex;
+  gap: 8px;
+}
+
+.cam-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cam-btn:hover, .cam-btn.active {
+  background: rgba(251, 146, 60, 0.2);
+  color: var(--accent-orange);
+  border-color: var(--accent-orange);
+}
+
+.camera-feed-container {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+.camera-viewport {
+  height: 240px;
+  background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.cam-overlay-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  font-family: monospace;
+}
+
+.cam-badge {
+  background: rgba(248, 113, 113, 0.2);
+  color: var(--accent-red);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulse-dot-red {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-red);
+  border-radius: 50%;
+  animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(248, 113, 113, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(248, 113, 113, 0); }
+  100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(248, 113, 113, 0); }
+}
+
+.cam-title {
+  font-size: 12px;
+  color: var(--text-main);
+  letter-spacing: 1px;
+}
+
+.cam-clock {
+  font-size: 12px;
+  color: var(--primary);
+}
+
+.motion-box {
+  align-self: center;
+  border: 2px dashed var(--accent-orange);
+  padding: 24px 40px;
+  border-radius: var(--radius-sm);
+  background: rgba(251, 146, 60, 0.08);
+  animation: motion-glow 2s infinite ease-in-out;
+  text-align: center;
+  z-index: 2;
+}
+
+@keyframes motion-glow {
+  0%, 100% { border-color: rgba(251, 146, 60, 0.4); background: rgba(251, 146, 60, 0.04); }
+  50% { border-color: rgba(251, 146, 60, 0.9); background: rgba(251, 146, 60, 0.15); }
+}
+
+.motion-label {
+  font-size: 10px;
+  font-family: monospace;
+  color: var(--accent-orange);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.cam-grid-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
 
 @media (max-width: 1024px) {
   .two-column-grid { grid-template-columns: 1fr; }
