@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   let devices = [];
   let routines = [];
   let currentRoomFilter = 'all';
+  let currentStatusFilter = 'all';
+  let searchQuery = '';
   let currentUserRole = 'Admin';
 
   // DOM Elements
@@ -11,8 +13,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const routinesGrid = document.getElementById('routines-grid');
   const logsList = document.getElementById('logs-list');
   const roomFilterContainer = document.getElementById('room-filters');
+  const statusFilterContainer = document.getElementById('status-filters');
+  const searchDevicesInput = document.getElementById('search-devices');
   const roleSelector = document.getElementById('role-selector');
   const btnAddDevice = document.getElementById('btn-add-device');
+
   const modalAddDevice = document.getElementById('modal-add-device');
   const closeAddModal = document.getElementById('close-add-modal');
   const btnCancelDevice = document.getElementById('btn-cancel-device');
@@ -91,18 +96,35 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderDevices() {
     devicesGrid.innerHTML = '';
 
-    const filtered = currentRoomFilter === 'all' 
-      ? devices 
-      : devices.filter(d => d.room === currentRoomFilter);
+    const filtered = devices.filter(d => {
+      // Room Filter
+      const matchRoom = currentRoomFilter === 'all' || d.room === currentRoomFilter;
+      
+      // Status Filter
+      const isActive = d.status === 'on' || d.status === 'locked' || d.status === 'recording';
+      const matchStatus = currentStatusFilter === 'all' 
+        || (currentStatusFilter === 'on' && isActive)
+        || (currentStatusFilter === 'off' && !isActive);
+
+      // Search Query Filter
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch = !q 
+        || d.name.toLowerCase().includes(q) 
+        || d.type.toLowerCase().includes(q) 
+        || d.room.toLowerCase().includes(q);
+
+      return matchRoom && matchStatus && matchSearch;
+    });
 
     if (filtered.length === 0) {
       devicesGrid.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
           <i class="fa-solid fa-ghost" style="font-size: 32px; margin-bottom: 12px;"></i>
-          <p>No smart devices found in ${currentRoomFilter}</p>
+          <p>No smart devices match your active filters/search.</p>
         </div>`;
       return;
     }
+
 
     filtered.forEach(dev => {
       const card = document.createElement('div');
@@ -354,6 +376,27 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
   }
+
+  // Status Filter Event Listeners
+  if (statusFilterContainer) {
+    statusFilterContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('status-btn')) {
+        document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentStatusFilter = e.target.getAttribute('data-status');
+        renderDevices();
+      }
+    });
+  }
+
+  // Real-Time Device Search Listener
+  if (searchDevicesInput) {
+    searchDevicesInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderDevices();
+    });
+  }
+
 
   // Role Switcher Event Listener
   if (roleSelector) {
