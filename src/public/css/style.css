@@ -307,6 +307,8 @@ body {
 .bg-blue { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
 .bg-green { background: rgba(74, 222, 128, 0.15); color: var(--accent-green); }
 .bg-purple { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); }
+.bg-yellow { background: rgba(250, 204, 21, 0.15); color: #facc15; }
+
 
 .metric-data {
   display: flex;
