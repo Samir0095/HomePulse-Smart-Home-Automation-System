@@ -134,6 +134,18 @@
             <span class="metric-sub text-success">All systems normal</span>
           </div>
         </div>
+
+        <div class="metric-card">
+          <div class="metric-icon bg-yellow">
+            <i class="fa-solid fa-sun"></i>
+          </div>
+          <div class="metric-data">
+            <span class="metric-label">Solar & Weather</span>
+            <h3 id="stat-solar">3.4 kW Solar</h3>
+            <span class="metric-sub" id="stat-weather">28°C Partly Cloudy (AQI 38)</span>
+          </div>
+        </div>
+
       </section>
 
       <!-- Quick Automation Routines Bar -->
@@ -161,7 +173,21 @@
           </div>
         </div>
 
+        <!-- Search & Status Filter Controls -->
+        <div class="search-filter-bar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-devices" placeholder="Search devices by name, room, or type...">
+          </div>
+          <div class="status-filters" id="status-filters">
+            <button class="status-btn active" data-status="all">All States</button>
+            <button class="status-btn" data-status="on">🟢 Active Only</button>
+            <button class="status-btn" data-status="off">⚪ Inactive</button>
+          </div>
+        </div>
+
         <div id="devices-grid" class="devices-grid">
+
           <!-- Dynamically filled by app.js -->
         </div>
       </section>
