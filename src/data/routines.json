@@ -1,0 +1,62 @@
+[
+  {
+    "id": "routine-1",
+    "name": "Away Mode",
+    "icon": "fa-house-user",
+    "description": "Locks all entrance doors, turns off all indoor lighting, and sets HVAC to Eco mode (26°C).",
+    "actions": [
+      { "deviceId": "dev-101", "property": "status", "value": "off" },
+      { "deviceId": "dev-102", "property": "status", "value": "off" },
+      { "deviceId": "dev-105", "property": "status", "value": "off" },
+      { "deviceId": "dev-107", "property": "status", "value": "off" },
+      { "deviceId": "dev-104", "property": "status", "value": "locked" },
+      { "deviceId": "dev-103", "property": "targetTemp", "value": 26 },
+      { "deviceId": "dev-103", "property": "mode", "value": "eco" }
+    ],
+    "lastTriggered": "Never"
+  },
+  {
+    "id": "routine-2",
+    "name": "Night Mode",
+    "icon": "fa-moon",
+    "description": "Turns off main lights, dims ambient lighting to 15%, locks front door, and sets bedroom temp to 22°C.",
+    "actions": [
+      { "deviceId": "dev-101", "property": "status", "value": "off" },
+      { "deviceId": "dev-102", "property": "status", "value": "on" },
+      { "deviceId": "dev-102", "property": "brightness", "value": 15 },
+      { "deviceId": "dev-107", "property": "status", "value": "off" },
+      { "deviceId": "dev-104", "property": "status", "value": "locked" },
+      { "deviceId": "dev-106", "property": "status", "value": "on" },
+      { "deviceId": "dev-106", "property": "targetTemp", "value": 22 }
+    ],
+    "lastTriggered": "2026-09-19T23:00:00Z"
+  },
+  {
+    "id": "routine-3",
+    "name": "Movie Time Scene",
+    "icon": "fa-film",
+    "description": "Dims living room main light to 10%, changes ambient strip to deep cyan (#00f2fe), and sets temp to 21°C.",
+    "actions": [
+      { "deviceId": "dev-101", "property": "status", "value": "on" },
+      { "deviceId": "dev-101", "property": "brightness", "value": 10 },
+      { "deviceId": "dev-102", "property": "status", "value": "on" },
+      { "deviceId": "dev-102", "property": "brightness", "value": 80 },
+      { "deviceId": "dev-102", "property": "color", "value": "#00f2fe" },
+      { "deviceId": "dev-103", "property": "targetTemp", "value": 21 }
+    ],
+    "lastTriggered": "2026-09-18T20:30:00Z"
+  },
+  {
+    "id": "routine-4",
+    "name": "Energy Saver Mode",
+    "icon": "fa-leaf",
+    "description": "Turns off non-essential decorative lighting and optimizes HVAC setpoints across all rooms.",
+    "actions": [
+      { "deviceId": "dev-102", "property": "status", "value": "off" },
+      { "deviceId": "dev-110", "property": "status", "value": "off" },
+      { "deviceId": "dev-103", "property": "targetTemp", "value": 25 },
+      { "deviceId": "dev-106", "property": "targetTemp", "value": 25 }
+    ],
+    "lastTriggered": "2026-09-20T10:00:00Z"
+  }
+]

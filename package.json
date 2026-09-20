@@ -1,0 +1,25 @@
+{
+  "name": "homepulse-smart-home-automation",
+  "version": "1.0.0",
+  "description": "Smart Home Automation System (HomePulse) - CSE 3206 Lab 2 MVP Prototype",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test src/tests/api.test.js"
+  },
+  "keywords": [
+    "smart-home",
+    "automation",
+    "prototype-model",
+    "software-engineering",
+    "express",
+    "dashboard"
+  ],
+  "author": "Group#02 Section B (2nd 30)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}

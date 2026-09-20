@@ -1,0 +1,65 @@
+[
+  {
+    "id": "log-1789887766438",
+    "timestamp": "2026-09-20T07:02:46.438Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Smart Refrigerator Guard' status set to ON"
+  },
+  {
+    "id": "log-1789887765239",
+    "timestamp": "2026-09-20T07:02:45.239Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Smart Refrigerator Guard' status set to OFF"
+  },
+  {
+    "id": "log-1789887730560",
+    "timestamp": "2026-09-20T07:02:10.560Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to OFF"
+  },
+  {
+    "id": "log-1789887728928",
+    "timestamp": "2026-09-20T07:02:08.928Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to ON"
+  },
+  {
+    "id": "log-1789887726814",
+    "timestamp": "2026-09-20T07:02:06.814Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to OFF"
+  },
+  {
+    "id": "log-1789887725830",
+    "timestamp": "2026-09-20T07:02:05.830Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to ON"
+  },
+  {
+    "id": "log-1",
+    "timestamp": "2026-09-20T12:00:00Z",
+    "type": "system",
+    "user": "System",
+    "message": "HomePulse Smart Core Initialized successfully."
+  },
+  {
+    "id": "log-2",
+    "timestamp": "2026-09-20T11:45:12Z",
+    "type": "security",
+    "user": "Sarah Connor",
+    "message": "Front Door Smart Lock state verified: LOCKED."
+  },
+  {
+    "id": "log-3",
+    "timestamp": "2026-09-20T10:00:00Z",
+    "type": "routine",
+    "user": "Alex Connor",
+    "message": "Triggered automation routine: 'Energy Saver Mode'."
+  }
+]

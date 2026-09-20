@@ -1,0 +1,135 @@
+[
+  {
+    "id": "dev-101",
+    "name": "Living Room Main Light",
+    "type": "light",
+    "room": "Living Room",
+    "status": "on",
+    "brightness": 85,
+    "color": "#fffaed",
+    "powerDrawWatts": 12,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-102",
+    "name": "Living Room Ambient Strip",
+    "type": "light",
+    "room": "Living Room",
+    "status": "on",
+    "brightness": 50,
+    "color": "#00f2fe",
+    "powerDrawWatts": 8,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-103",
+    "name": "Central HVAC Thermostat",
+    "type": "thermostat",
+    "room": "Living Room",
+    "status": "on",
+    "targetTemp": 22,
+    "currentTemp": 24.5,
+    "humidity": 48,
+    "mode": "cool",
+    "powerDrawWatts": 1200,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-104",
+    "name": "Front Door Smart Lock",
+    "type": "lock",
+    "room": "Entrance",
+    "status": "locked",
+    "batteryLevel": 92,
+    "powerDrawWatts": 0.5,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-105",
+    "name": "Master Bedroom Ceiling Light",
+    "type": "light",
+    "room": "Master Bedroom",
+    "status": "off",
+    "brightness": 0,
+    "color": "#ffffff",
+    "powerDrawWatts": 0,
+    "lastUpdated": "2026-09-20T07:02:10.559Z",
+    "updatedBy": "Admin"
+  },
+  {
+    "id": "dev-106",
+    "name": "Bedroom AC Unit",
+    "type": "thermostat",
+    "room": "Master Bedroom",
+    "status": "off",
+    "targetTemp": 24,
+    "currentTemp": 25,
+    "humidity": 52,
+    "mode": "off",
+    "powerDrawWatts": 0,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-107",
+    "name": "Kitchen Pendant Lights",
+    "type": "light",
+    "room": "Kitchen",
+    "status": "on",
+    "brightness": 100,
+    "color": "#ffffff",
+    "powerDrawWatts": 15,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-108",
+    "name": "Smart Refrigerator Guard",
+    "type": "appliance",
+    "room": "Kitchen",
+    "status": "on",
+    "powerDrawWatts": 150,
+    "lastUpdated": "2026-09-20T07:02:46.437Z",
+    "updatedBy": "Admin"
+  },
+  {
+    "id": "dev-109",
+    "name": "Garage Door Opener",
+    "type": "lock",
+    "room": "Garage",
+    "status": "closed",
+    "batteryLevel": 88,
+    "powerDrawWatts": 2,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-110",
+    "name": "Porch Security Floodlight",
+    "type": "light",
+    "room": "Outdoor",
+    "status": "off",
+    "brightness": 0,
+    "color": "#ffffff",
+    "powerDrawWatts": 0,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-111",
+    "name": "Driveway Security Camera",
+    "type": "camera",
+    "room": "Outdoor",
+    "status": "recording",
+    "motionDetected": false,
+    "powerDrawWatts": 5,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-112",
+    "name": "Main Smart Energy Meter",
+    "type": "meter",
+    "room": "Utility Room",
+    "status": "active",
+    "totalTodayKWh": 14.8,
+    "currentPowerKw": 1.39,
+    "powerDrawWatts": 0,
+    "lastUpdated": "2026-09-20T12:00:00Z"
+  }
+]

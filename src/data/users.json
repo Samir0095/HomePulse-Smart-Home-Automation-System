@@ -1,0 +1,23 @@
+[
+  {
+    "id": "usr-1",
+    "name": "Sarah Connor",
+    "role": "Admin",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+    "permissions": ["all"]
+  },
+  {
+    "id": "usr-2",
+    "name": "Alex Connor",
+    "role": "Resident",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    "permissions": ["toggle_device", "trigger_routine"]
+  },
+  {
+    "id": "usr-3",
+    "name": "Guest User",
+    "role": "Guest",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Guest",
+    "permissions": ["view_only"]
+  }
+]
