@@ -165,9 +165,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     attachDeviceEventListeners();
+    renderFloorplan();
+  }
+
+  // Render Interactive 2D House Floorplan
+  function renderFloorplan() {
+    const floorplanContainer = document.getElementById('floorplan-grid');
+    if (!floorplanContainer) return;
+    floorplanContainer.innerHTML = '';
+
+    const rooms = ['Living Room', 'Master Bedroom', 'Kitchen', 'Outdoor'];
+    const roomIcons = {
+      'Living Room': 'fa-couch',
+      'Master Bedroom': 'fa-bed',
+      'Kitchen': 'fa-utensils',
+      'Outdoor': 'fa-tree'
+    };
+
+    rooms.forEach(room => {
+      const roomDevs = devices.filter(d => d.room === room);
+      const activeDevs = roomDevs.filter(d => d.status === 'on' || d.status === 'locked' || d.status === 'recording');
+      const isActive = activeDevs.length > 0;
+
+      const miniBadges = roomDevs.map(d => {
+        const isOn = d.status === 'on' || d.status === 'locked' || d.status === 'recording';
+        const icon = getDeviceIcon(d.type);
+        return `<span class="mini-dev-badge ${isOn ? 'on' : ''}"><i class="fa-solid ${icon}"></i> ${d.name.split(' ')[0]}</span>`;
+      }).join('');
+
+      const box = document.createElement('div');
+      box.className = `room-box ${isActive ? 'active' : ''}`;
+      box.innerHTML = `
+        <div class="room-box-header">
+          <h4><i class="fa-solid ${roomIcons[room] || 'fa-door-open'}"></i> ${room}</h4>
+          <span class="room-status-tag">${activeDevs.length} / ${roomDevs.length} Active</span>
+        </div>
+        <div class="room-box-devices">
+          ${miniBadges || '<span style="font-size:11px; color: var(--text-muted);">No devices</span>'}
+        </div>
+      `;
+
+      floorplanContainer.appendChild(box);
+    });
   }
 
   // Render Controls based on Device Type
+
   function renderControlForDeviceType(dev, disabledAttr) {
     if (dev.type === 'light') {
       const colors = ['#fffaed', '#00f2fe', '#f59e0b', '#10b981', '#ec4899'];

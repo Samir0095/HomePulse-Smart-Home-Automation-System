@@ -359,11 +359,88 @@ body {
   color: var(--text-muted);
 }
 
+/* Floorplan 2D Grid */
+.floorplan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.room-box {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px dashed var(--glass-border);
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  transition: var(--transition);
+}
+
+.room-box.active {
+  border: 1px solid var(--primary);
+  background: rgba(30, 41, 59, 0.9);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.room-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room-box-header h4 {
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.room-status-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+}
+
+.room-box.active .room-status-tag {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--accent-green);
+}
+
+.room-box-devices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mini-dev-badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mini-dev-badge.on {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--primary);
+}
+
 .routines-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
 }
+
 
 .routine-card {
   background: var(--bg-card);
