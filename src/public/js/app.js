@@ -82,13 +82,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Fetch Audit Logs
+  // Fetch Audit Logs (PR #2: now stores ALL logs for the full-page viewer)
   async function fetchLogs() {
     try {
       const res = await fetch('/api/logs');
       const data = await res.json();
       if (data.success) {
-        renderLogs(data.data);
+        allLogs = data.data;
+        renderLogs(allLogs);
+        renderFullLogs();
       }
     } catch (err) {
       console.error('Error fetching logs:', err);
@@ -100,22 +102,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     devicesGrid.innerHTML = '';
 
     const filtered = devices.filter(d => {
-      // Room Filter
       const matchRoom = currentRoomFilter === 'all' || d.room === currentRoomFilter;
-      
-      // Status Filter
       const isActive = d.status === 'on' || d.status === 'locked' || d.status === 'recording';
       const matchStatus = currentStatusFilter === 'all' 
         || (currentStatusFilter === 'on' && isActive)
         || (currentStatusFilter === 'off' && !isActive);
-
-      // Search Query Filter
       const q = searchQuery.toLowerCase().trim();
       const matchSearch = !q 
         || d.name.toLowerCase().includes(q) 
         || d.type.toLowerCase().includes(q) 
         || d.room.toLowerCase().includes(q);
-
       return matchRoom && matchStatus && matchSearch;
     });
 
@@ -127,7 +123,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>`;
       return;
     }
-
 
     filtered.forEach(dev => {
       const card = document.createElement('div');
@@ -213,7 +208,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Render Controls based on Device Type
-
   function renderControlForDeviceType(dev, disabledAttr) {
     if (dev.type === 'light') {
       const colors = ['#fffaed', '#00f2fe', '#f59e0b', '#10b981', '#ec4899'];
@@ -283,7 +277,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Device Action Listeners
   function attachDeviceEventListeners() {
-    // Toggle Status
     document.querySelectorAll('.toggle-device-status').forEach(input => {
       input.addEventListener('change', async (e) => {
         const id = e.target.getAttribute('data-id');
@@ -291,12 +284,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         let newStatus = e.target.checked ? 'on' : 'off';
         if (dev.type === 'lock') newStatus = e.target.checked ? 'locked' : 'unlocked';
         if (dev.type === 'camera') newStatus = e.target.checked ? 'recording' : 'idle';
-
         await updateDeviceState(id, { status: newStatus, updatedBy: currentUserRole });
       });
     });
 
-    // Temp Adjustment
     document.querySelectorAll('.btn-temp-adj').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = btn.getAttribute('data-id');
@@ -307,7 +298,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    // Brightness Slider
     document.querySelectorAll('.update-brightness').forEach(slider => {
       slider.addEventListener('change', async (e) => {
         const id = slider.getAttribute('data-id');
@@ -316,7 +306,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    // Color Swatch Selection
     document.querySelectorAll('.color-dot').forEach(dot => {
       dot.addEventListener('click', async () => {
         if (currentUserRole === 'Guest') return;
@@ -326,8 +315,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-
-    // Delete Device
     document.querySelectorAll('.btn-delete-device').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
@@ -419,7 +406,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Render System Audit Logs
+  // Render Dashboard Audit Logs (last 15)
   function renderLogs(logs) {
     logsList.innerHTML = '';
     logs.slice(0, 15).forEach(log => {
@@ -515,7 +502,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (userNameElem) userNameElem.innerText = 'Sarah Connor';
         if (avatarElem) avatarElem.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah';
         if (btnAddDevice) {
-          // PR #1: Respect current tab when showing Add Device button
           const allowed = (currentTab === 'dashboard' || currentTab === 'rooms');
           btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
         }
@@ -585,39 +571,127 @@ document.addEventListener('DOMContentLoaded', async () => {
   function switchTab(tabName) {
     currentTab = tabName;
 
-    // 1. Toggle Page Visibility
     document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById('page-' + tabName);
     if (targetPage) targetPage.classList.add('active');
 
-    // 2. Update Sidebar Highlight
     document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
     const targetNav = document.querySelector('.nav-item[data-tab="' + tabName + '"]');
     if (targetNav) targetNav.classList.add('active');
 
-    // 3. Update Page Title & Subtitle
     const info = pageTitles[tabName];
     if (info) {
       document.getElementById('page-title').innerText = info.title;
       document.querySelector('.subtitle').innerText = info.subtitle;
     }
 
-    // 4. Manage "Add Device" Button Visibility
     if (btnAddDevice) {
-      // Only show on Dashboard or Rooms pages, and only for Admins
       const allowed = (tabName === 'dashboard' || tabName === 'rooms') && currentUserRole === 'Admin';
       btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
     }
   }
 
-  // Attach Click Listeners to Sidebar Items
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', (e) => {
-      e.preventDefault(); // Prevent default anchor jump
+      e.preventDefault();
       const tab = item.getAttribute('data-tab');
       if (tab) switchTab(tab);
     });
   });
+  // =====================================================
+
+  // =====================================================
+  // PR #2: Full-Page Audit Log Viewer + Search + CSV Export
+  // =====================================================
+  let allLogs = [];
+  let logSearchQuery = '';
+
+  const logsFullList = document.getElementById('logs-full-list');
+  const logsStats = document.getElementById('logs-stats');
+  const searchLogsInput = document.getElementById('search-logs');
+  const btnExportLogs = document.getElementById('btn-export-logs');
+  const btnRefreshLogsFull = document.getElementById('btn-refresh-logs-full');
+
+  function renderFullLogs() {
+    if (!logsFullList) return;
+    const q = logSearchQuery.toLowerCase().trim();
+    const filtered = allLogs.filter(log => {
+      if (!q) return true;
+      const user = (log.user || '').toLowerCase();
+      const msg = (log.message || '').toLowerCase();
+      const type = (log.type || '').toLowerCase();
+      return user.includes(q) || msg.includes(q) || type.includes(q);
+    });
+
+    if (logsStats) {
+      const adminCount = allLogs.filter(l => (l.user || '').toLowerCase().includes('admin')).length;
+      logsStats.innerHTML = `
+        <span><i class="fa-solid fa-database"></i> Total Entries: ${allLogs.length}</span>
+        <span><i class="fa-solid fa-filter"></i> Showing: ${filtered.length}</span>
+        <span><i class="fa-solid fa-user-shield"></i> Admin Actions: ${adminCount}</span>
+      `;
+    }
+
+    if (filtered.length === 0) {
+      logsFullList.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <i class="fa-solid fa-magnifying-glass-minus" style="font-size: 28px; margin-bottom: 10px;"></i>
+          <p>No log entries match your search.</p>
+        </div>`;
+      return;
+    }
+
+    logsFullList.innerHTML = '';
+    filtered.forEach(log => {
+      const item = document.createElement('div');
+      item.className = `log-item ${log.type || 'system'}`;
+      const dt = new Date(log.timestamp);
+      const timeStr = dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const dateStr = dt.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' });
+      item.innerHTML = `
+        <span class="log-time">${dateStr} ${timeStr}</span>
+        <span class="log-msg"><strong>[${log.user || 'System'}]</strong> ${log.message}</span>
+        <span style="color: var(--text-muted); font-size: 10px; text-transform: uppercase; align-self: center;">${log.type || 'system'}</span>
+      `;
+      logsFullList.appendChild(item);
+    });
+  }
+
+  function exportLogsCSV() {
+    const q = logSearchQuery.toLowerCase().trim();
+    const filtered = allLogs.filter(log => {
+      if (!q) return true;
+      return (log.user || '').toLowerCase().includes(q) || (log.message || '').toLowerCase().includes(q);
+    });
+    const rows = [['Timestamp', 'Type', 'User', 'Message']];
+    filtered.forEach(log => {
+      rows.push([
+        log.timestamp || '',
+        log.type || 'system',
+        log.user || 'System',
+        (log.message || '').replace(/"/g, '""')
+      ]);
+    });
+    const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `homepulse-audit-logs-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  if (searchLogsInput) {
+    searchLogsInput.addEventListener('input', (e) => {
+      logSearchQuery = e.target.value;
+      renderFullLogs();
+    });
+  }
+  if (btnExportLogs) btnExportLogs.addEventListener('click', exportLogsCSV);
+  if (btnRefreshLogsFull) btnRefreshLogsFull.addEventListener('click', fetchLogs);
   // =====================================================
 
   // Initialize

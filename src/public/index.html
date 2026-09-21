@@ -246,7 +246,7 @@
 
       </section> <!-- END page-dashboard -->
 
-      <!-- PAGE 2: ROOMS & DEVICES (Placeholder for PR #2) -->
+      <!-- PAGE 2: ROOMS & DEVICES (Placeholder for partner) -->
       <section id="page-rooms" class="app-page">
         <div class="panel-card" style="padding: 60px; text-align: center;">
           <i class="fa-solid fa-couch" style="font-size: 48px; color: var(--primary); margin-bottom: 20px;"></i>
@@ -255,7 +255,7 @@
         </div>
       </section>
 
-      <!-- PAGE 3: AUTOMATIONS (Placeholder for PR #2) -->
+      <!-- PAGE 3: AUTOMATIONS (Placeholder for partner) -->
       <section id="page-routines" class="app-page">
         <div class="panel-card" style="padding: 60px; text-align: center;">
           <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 48px; color: var(--accent-purple); margin-bottom: 20px;"></i>
@@ -273,13 +273,23 @@
         </div>
       </section>
 
-      <!-- PAGE 5: AUDIT LOGS (Placeholder for PR #4) -->
+      <!-- PAGE 5: AUDIT LOGS (PR #2: Full-Page Log Viewer) -->
       <section id="page-logs" class="app-page">
-        <div class="panel-card" style="padding: 60px; text-align: center;">
-          <i class="fa-solid fa-list-check" style="font-size: 48px; color: var(--accent-orange); margin-bottom: 20px;"></i>
-          <h2>System Audit Log Viewer</h2>
-          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Searchable, exportable system event history coming in the next update.</p>
-        </div>
+        <section class="panel-card">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <h3><i class="fa-solid fa-list-check" style="color: var(--accent-orange);"></i> System Audit Log Viewer</h3>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <div class="search-box" style="max-width: 260px; flex: none;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-logs" placeholder="Search logs by user or message...">
+              </div>
+              <button id="btn-export-logs" class="btn btn-secondary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+              <button id="btn-refresh-logs-full" class="btn btn-secondary"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
+            </div>
+          </div>
+          <div id="logs-stats" style="display: flex; gap: 18px; font-size: 12px; color: var(--text-muted); flex-wrap: wrap;"></div>
+          <div id="logs-full-list" class="logs-list" style="max-height: 62vh;"></div>
+        </section>
       </section>
 
     </main>
