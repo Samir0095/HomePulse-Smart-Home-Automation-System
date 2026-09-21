@@ -1,5 +1,26 @@
 [
   {
+    "id": "log-1790006065320",
+    "timestamp": "2026-09-21T15:54:25.320Z",
+    "type": "security",
+    "user": "Test Admin",
+    "message": "🟢 Emergency Hazard Alarm RESET by user. System returning to normal state."
+  },
+  {
+    "id": "log-1790006065303",
+    "timestamp": "2026-09-21T15:54:25.303Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'INTRUDER'! Emergency protocol executed."
+  },
+  {
+    "id": "log-1790006065286",
+    "timestamp": "2026-09-21T15:54:25.286Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'FIRE'! Emergency protocol executed."
+  },
+  {
     "id": "log-1790001697494",
     "timestamp": "2026-09-21T14:41:37.494Z",
     "type": "security",

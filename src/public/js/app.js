@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentStatusFilter = 'all';
   let searchQuery = '';
   let currentUserRole = 'Admin';
+  
+  // PR #1: Tab Navigation State
+  let currentTab = 'dashboard';
 
   // DOM Elements
   const devicesGrid = document.getElementById('devices-grid');
@@ -51,6 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchLogs();
     await fetchEnergyBudget();
     await fetchDiagnostics();
+    if (typeof fetchEnergyAnalytics === 'function') await fetchEnergyAnalytics();
   }
 
   // Fetch Device Health Diagnostics & OTA Firmware Data
@@ -208,13 +212,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Fetch Audit Logs
+  // Fetch Audit Logs (PR #2: stores ALL logs for full-page viewer)
   async function fetchLogs() {
     try {
       const res = await fetch('/api/logs');
       const data = await res.json();
       if (data.success) {
-        renderLogs(data.data);
+        allLogs = data.data;
+        renderLogs(allLogs);
+        renderFullLogs();
       }
     } catch (err) {
       console.error('Error fetching logs:', err);
@@ -226,22 +232,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     devicesGrid.innerHTML = '';
 
     const filtered = devices.filter(d => {
-      // Room Filter
       const matchRoom = currentRoomFilter === 'all' || d.room === currentRoomFilter;
-      
-      // Status Filter
       const isActive = d.status === 'on' || d.status === 'locked' || d.status === 'recording';
       const matchStatus = currentStatusFilter === 'all' 
         || (currentStatusFilter === 'on' && isActive)
         || (currentStatusFilter === 'off' && !isActive);
-
-      // Search Query Filter
       const q = searchQuery.toLowerCase().trim();
       const matchSearch = !q 
         || d.name.toLowerCase().includes(q) 
         || d.type.toLowerCase().includes(q) 
         || d.room.toLowerCase().includes(q);
-
       return matchRoom && matchStatus && matchSearch;
     });
 
@@ -253,7 +253,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>`;
       return;
     }
-
 
     filtered.forEach(dev => {
       const card = document.createElement('div');
@@ -339,7 +338,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Render Controls based on Device Type
-
   function renderControlForDeviceType(dev, disabledAttr) {
     if (dev.type === 'light') {
       const colors = ['#fffaed', '#00f2fe', '#f59e0b', '#10b981', '#ec4899'];
@@ -409,7 +407,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Device Action Listeners
   function attachDeviceEventListeners() {
-    // Toggle Status
     document.querySelectorAll('.toggle-device-status').forEach(input => {
       input.addEventListener('change', async (e) => {
         const id = e.target.getAttribute('data-id');
@@ -417,12 +414,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         let newStatus = e.target.checked ? 'on' : 'off';
         if (dev.type === 'lock') newStatus = e.target.checked ? 'locked' : 'unlocked';
         if (dev.type === 'camera') newStatus = e.target.checked ? 'recording' : 'idle';
-
         await updateDeviceState(id, { status: newStatus, updatedBy: currentUserRole });
       });
     });
 
-    // Temp Adjustment
     document.querySelectorAll('.btn-temp-adj').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = btn.getAttribute('data-id');
@@ -433,7 +428,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    // Brightness Slider
     document.querySelectorAll('.update-brightness').forEach(slider => {
       slider.addEventListener('change', async (e) => {
         const id = slider.getAttribute('data-id');
@@ -442,7 +436,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    // Color Swatch Selection
     document.querySelectorAll('.color-dot').forEach(dot => {
       dot.addEventListener('click', async () => {
         if (currentUserRole === 'Guest') return;
@@ -452,8 +445,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-
-    // Delete Device
     document.querySelectorAll('.btn-delete-device').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
@@ -545,7 +536,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Render System Audit Logs
+  // Render Dashboard Audit Logs (last 15)
   function renderLogs(logs) {
     logsList.innerHTML = '';
     logs.slice(0, 15).forEach(log => {
@@ -630,8 +621,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }, 1000);
 
-
-
   // Role Switcher Event Listener
   if (roleSelector) {
     roleSelector.addEventListener('change', (e) => {
@@ -642,7 +631,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (currentUserRole === 'Admin') {
         if (userNameElem) userNameElem.innerText = 'Sarah Connor';
         if (avatarElem) avatarElem.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah';
-        if (btnAddDevice) btnAddDevice.style.display = 'inline-flex';
+        if (btnAddDevice) {
+          const allowed = (currentTab === 'dashboard' || currentTab === 'rooms');
+          btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
+        }
       } else if (currentUserRole === 'Resident') {
         if (userNameElem) userNameElem.innerText = 'Alex Connor';
         if (avatarElem) avatarElem.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex';
@@ -841,7 +833,280 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnRefreshLogs.addEventListener('click', fetchLogs);
   }
 
+  // =====================================================
+  // PR #1: Sidebar Tab Navigation System
+  // =====================================================
+  const pageTitles = {
+    dashboard: { title: 'Dashboard Overview', subtitle: 'Real-time status of your connected smart home environment' },
+    rooms: { title: 'Rooms & Devices Management', subtitle: 'Control and monitor devices room by room' },
+    routines: { title: 'Automation Routines', subtitle: 'Trigger scenes and manage automated workflows' },
+    analytics: { title: 'Energy Analytics', subtitle: 'Detailed power consumption and efficiency reports' },
+    logs: { title: 'System Audit Logs', subtitle: 'Chronological history of all system events' }
+  };
+
+  function switchTab(tabName) {
+    currentTab = tabName;
+
+    document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active'));
+    const targetPage = document.getElementById('page-' + tabName);
+    if (targetPage) targetPage.classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+    const targetNav = document.querySelector('.nav-item[data-tab="' + tabName + '"]');
+    if (targetNav) targetNav.classList.add('active');
+
+    const info = pageTitles[tabName];
+    if (info) {
+      document.getElementById('page-title').innerText = info.title;
+      document.querySelector('.subtitle').innerText = info.subtitle;
+    }
+
+    if (btnAddDevice) {
+      const allowed = (tabName === 'dashboard' || tabName === 'rooms') && currentUserRole === 'Admin';
+      btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
+    }
+
+    // PR #3: build analytics charts the first time this page is opened
+    if (tabName === 'analytics') initAnalyticsCharts();
+  }
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tab = item.getAttribute('data-tab');
+      if (tab) switchTab(tab);
+    });
+  });
+  // =====================================================
+
+  // =====================================================
+  // PR #2: Full-Page Audit Log Viewer + Search + CSV Export
+  // =====================================================
+  let allLogs = [];
+  let logSearchQuery = '';
+
+  const logsFullList = document.getElementById('logs-full-list');
+  const logsStats = document.getElementById('logs-stats');
+  const searchLogsInput = document.getElementById('search-logs');
+  const btnExportLogs = document.getElementById('btn-export-logs');
+  const btnRefreshLogsFull = document.getElementById('btn-refresh-logs-full');
+
+  function renderFullLogs() {
+    if (!logsFullList) return;
+    const q = logSearchQuery.toLowerCase().trim();
+    const filtered = allLogs.filter(log => {
+      if (!q) return true;
+      const user = (log.user || '').toLowerCase();
+      const msg = (log.message || '').toLowerCase();
+      const type = (log.type || '').toLowerCase();
+      return user.includes(q) || msg.includes(q) || type.includes(q);
+    });
+
+    if (logsStats) {
+      const adminCount = allLogs.filter(l => (l.user || '').toLowerCase().includes('admin')).length;
+      logsStats.innerHTML = `
+        <span><i class="fa-solid fa-database"></i> Total Entries: ${allLogs.length}</span>
+        <span><i class="fa-solid fa-filter"></i> Showing: ${filtered.length}</span>
+        <span><i class="fa-solid fa-user-shield"></i> Admin Actions: ${adminCount}</span>
+      `;
+    }
+
+    if (filtered.length === 0) {
+      logsFullList.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <i class="fa-solid fa-magnifying-glass-minus" style="font-size: 28px; margin-bottom: 10px;"></i>
+          <p>No log entries match your search.</p>
+        </div>`;
+      return;
+    }
+
+    logsFullList.innerHTML = '';
+    filtered.forEach(log => {
+      const item = document.createElement('div');
+      item.className = `log-item ${log.type || 'system'}`;
+      const dt = new Date(log.timestamp);
+      const timeStr = dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const dateStr = dt.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' });
+      item.innerHTML = `
+        <span class="log-time">${dateStr} ${timeStr}</span>
+        <span class="log-msg"><strong>[${log.user || 'System'}]</strong> ${log.message}</span>
+        <span style="color: var(--text-muted); font-size: 10px; text-transform: uppercase; align-self: center;">${log.type || 'system'}</span>
+      `;
+      logsFullList.appendChild(item);
+    });
+  }
+
+  function exportLogsCSV() {
+    const q = logSearchQuery.toLowerCase().trim();
+    const filtered = allLogs.filter(log => {
+      if (!q) return true;
+      return (log.user || '').toLowerCase().includes(q) || (log.message || '').toLowerCase().includes(q);
+    });
+    const rows = [['Timestamp', 'Type', 'User', 'Message']];
+    filtered.forEach(log => {
+      rows.push([
+        log.timestamp || '',
+        log.type || 'system',
+        log.user || 'System',
+        (log.message || '').replace(/"/g, '""')
+      ]);
+    });
+    const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `homepulse-audit-logs-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  if (searchLogsInput) {
+    searchLogsInput.addEventListener('input', (e) => {
+      logSearchQuery = e.target.value;
+      renderFullLogs();
+    });
+  }
+  if (btnExportLogs) btnExportLogs.addEventListener('click', exportLogsCSV);
+  if (btnRefreshLogsFull) btnRefreshLogsFull.addEventListener('click', fetchLogs);
+  // =====================================================
+
+  // =====================================================
+  // PR #3: Full-Page Energy Analytics Dashboard (Chart.js)
+  // =====================================================
+  let analyticsData = null;
+  let analyticsChartsReady = false;
+
+  async function fetchEnergyAnalytics() {
+    try {
+      const res = await fetch('/api/energy-analytics');
+      const data = await res.json();
+      if (data.success) {
+        analyticsData = data;
+        renderAnalyticsStats();
+        renderRoomDistribution();
+        if (currentTab === 'analytics') initAnalyticsCharts();
+      }
+    } catch (err) {
+      console.error('Error fetching energy analytics:', err);
+    }
+  }
+
+  function renderAnalyticsStats() {
+    const el = document.getElementById('analytics-stats');
+    if (!el || !analyticsData) return;
+    const totalKwh = analyticsData.hourlyData.reduce((s, h) => s + h.kWh, 0).toFixed(2);
+    const peak = analyticsData.hourlyData.reduce((a, b) => (b.kWh > a.kWh ? b : a));
+    const cost = (totalKwh * 12.5).toFixed(0);
+    const solarKwh = (totalKwh * 0.34).toFixed(1);
+    el.innerHTML = `
+      <div class="metric-card">
+        <div class="metric-icon bg-green"><i class="fa-solid fa-bolt"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Total Today</span>
+          <h3>${totalKwh} kWh</h3>
+          <span class="metric-sub">Sum of hourly usage</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon bg-orange"><i class="fa-solid fa-fire"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Peak Hour</span>
+          <h3>${peak.hour}</h3>
+          <span class="metric-sub">${peak.kWh} kWh consumed</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon bg-blue"><i class="fa-solid fa-money-bill-wave"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Estimated Cost</span>
+          <h3>৳ ${cost}</h3>
+          <span class="metric-sub">At ৳12.50 per kWh</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon bg-yellow"><i class="fa-solid fa-sun"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Solar Offset</span>
+          <h3>34%</h3>
+          <span class="metric-sub">~${solarKwh} kWh from solar</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderRoomDistribution() {
+    const list = document.getElementById('room-distribution-list');
+    if (!list || !analyticsData) return;
+    const colors = ['#38bdf8', '#4ade80', '#c084fc', '#fb923c'];
+    list.innerHTML = analyticsData.roomDistribution.map((r, i) => `
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+          <span style="color: var(--text-main);"><i class="fa-solid fa-circle" style="color: ${colors[i % colors.length]}; font-size: 8px; margin-right: 6px;"></i>${r.room}</span>
+          <span style="color: var(--text-muted);">${r.percentage}% · ${r.watts} W</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.08); border-radius: 6px; overflow: hidden;">
+          <div style="height: 100%; width: ${r.percentage}%; background: ${colors[i % colors.length]}; border-radius: 6px;"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function initAnalyticsCharts() {
+    if (analyticsChartsReady || !analyticsData || !window.Chart) return;
+    const lineCtx = document.getElementById('analyticsLineChart');
+    const doughnutCtx = document.getElementById('analyticsDoughnutChart');
+    if (!lineCtx || !doughnutCtx) return;
+
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: analyticsData.hourlyData.map(h => h.hour),
+        datasets: [{
+          label: 'Energy Usage (kWh)',
+          data: analyticsData.hourlyData.map(h => h.kWh),
+          borderColor: '#38bdf8',
+          backgroundColor: 'rgba(56, 189, 248, 0.18)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#38bdf8'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#f8fafc' } } },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        }
+      }
+    });
+
+    new Chart(doughnutCtx, {
+      type: 'doughnut',
+      data: {
+        labels: analyticsData.roomDistribution.map(r => r.room),
+        datasets: [{
+          data: analyticsData.roomDistribution.map(r => r.percentage),
+          backgroundColor: ['#38bdf8', '#4ade80', '#c084fc', '#fb923c'],
+          borderColor: '#0f172a',
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } }
+      }
+    });
+
+    analyticsChartsReady = true;
+  }
+  // =====================================================
+
   // Initialize
   await loadInitialData();
-
 });

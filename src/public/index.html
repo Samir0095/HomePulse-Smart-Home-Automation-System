@@ -70,7 +70,7 @@
     <!-- Main Content Area -->
     <main class="main-content">
       
-      <!-- Header -->
+      <!-- Header (Persistent across all pages) -->
       <header class="top-header">
         <div class="header-title">
           <h1 id="page-title">Dashboard Overview</h1>
@@ -89,251 +89,310 @@
         </div>
       </header>
 
-      <!-- SIGNIFICANT FEATURE: Emergency Safety Lockdown System -->
-      <section class="panel-card emergency-panel" id="emergency-panel">
-        <div class="panel-header" style="margin-bottom: 8px;">
-          <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-red);"></i> Emergency Safety & Hazard Lockdown Control</h3>
-          <span class="badge" id="emergency-status-badge" style="background: rgba(74, 222, 128, 0.15); color: var(--accent-green);">SYSTEM NORMAL</span>
-        </div>
+      <!-- ================= PAGE SYSTEM ================= -->
 
-        <div class="emergency-controls">
-          <button type="button" class="btn btn-sm btn-emergency-fire" id="btn-trigger-fire">
-            <i class="fa-solid fa-fire"></i> Trigger Fire Evacuation Protocol
-          </button>
-          <button type="button" class="btn btn-sm btn-emergency-intruder" id="btn-trigger-intruder">
-            <i class="fa-solid fa-user-ninja"></i> Trigger Intruder Lockdown
-          </button>
-          <button type="button" class="btn btn-sm btn-secondary" id="btn-reset-emergency">
-            <i class="fa-solid fa-rotate-left"></i> Reset System Safety
-          </button>
-        </div>
+      <!-- PAGE 1: DASHBOARD (Active by default) -->
+      <section id="page-dashboard" class="app-page active">
 
-        <div id="emergency-banner" class="emergency-alert-banner" style="display: none;">
-          <i class="fa-solid fa-shield-cat"></i>
-          <span id="emergency-banner-text">EMERGENCY PROTOCOL ACTIVE: All doors unlocked for immediate evacuation.</span>
-        </div>
-      </section>
-
-
-      <!-- Live Environment Metric Cards -->
-      <section class="metrics-grid">
-
-        <div class="metric-card">
-          <div class="metric-icon bg-orange">
-            <i class="fa-solid fa-temperature-three-quarters"></i>
+        <!-- SIGNIFICANT FEATURE: Emergency Safety Lockdown System -->
+        <section class="panel-card emergency-panel" id="emergency-panel">
+          <div class="panel-header" style="margin-bottom: 8px;">
+            <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-red);"></i> Emergency Safety & Hazard Lockdown Control</h3>
+            <span class="badge" id="emergency-status-badge" style="background: rgba(74, 222, 128, 0.15); color: var(--accent-green);">SYSTEM NORMAL</span>
           </div>
-          <div class="metric-data">
-            <span class="metric-label">Indoor Temp</span>
-            <h3 id="stat-temp">24.5 °C</h3>
-            <span class="metric-sub text-success">Target: 22°C</span>
+
+          <div class="emergency-controls">
+            <button type="button" class="btn btn-sm btn-emergency-fire" id="btn-trigger-fire">
+              <i class="fa-solid fa-fire"></i> Trigger Fire Evacuation Protocol
+            </button>
+            <button type="button" class="btn btn-sm btn-emergency-intruder" id="btn-trigger-intruder">
+              <i class="fa-solid fa-user-ninja"></i> Trigger Intruder Lockdown
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" id="btn-reset-emergency">
+              <i class="fa-solid fa-rotate-left"></i> Reset System Safety
+            </button>
           </div>
-        </div>
 
-        <div class="metric-card">
-          <div class="metric-icon bg-blue">
-            <i class="fa-solid fa-droplet"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Indoor Humidity</span>
-            <h3 id="stat-humidity">48 %</h3>
-            <span class="metric-sub">Optimal Comfort</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon bg-green">
-            <i class="fa-solid fa-bolt"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Active Power</span>
-            <h3 id="stat-power">1.39 kW</h3>
-            <span class="metric-sub" id="stat-daily-kwh">14.8 kWh today</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon bg-purple">
-            <i class="fa-solid fa-microchip"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Active Devices</span>
-            <h3 id="stat-active-devices">5 / 12</h3>
-            <span class="metric-sub text-success">All systems normal</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon bg-yellow">
-            <i class="fa-solid fa-sun"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Solar & Weather</span>
-            <h3 id="stat-solar">3.4 kW Solar</h3>
-            <span class="metric-sub" id="stat-weather">28°C Partly Cloudy (AQI 38)</span>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- Interactive 2D House Floorplan Section -->
-      <section class="floorplan-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-house-chimney-window" style="color: var(--primary);"></i> Smart House 2D Floorplan & Heatmap</h3>
-          <span class="badge">Real-Time Sync</span>
-        </div>
-        <div class="floorplan-grid" id="floorplan-grid">
-          <!-- Dynamically populated by app.js -->
-        </div>
-      </section>
-
-      <!-- Quick Automation Routines Bar -->
-      <section class="routines-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-bolt-lightning"></i> Automation Engine & Custom Rules</h3>
-          <div>
-            <button id="btn-create-routine" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus"></i> New Custom Rule</button>
-            <span class="badge">One-Click Scenes</span>
-          </div>
-        </div>
-        <div id="routines-grid" class="routines-grid">
-          <!-- Dynamically filled by app.js -->
-        </div>
-      </section>
-
-
-      <!-- Room Filter Tabs & Device Grid -->
-      <section class="devices-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-sliders"></i> Smart Devices & Modules</h3>
-          
-          <div class="room-filters" id="room-filters">
-            <button class="filter-btn active" data-room="all">All Rooms</button>
-            <button class="filter-btn" data-room="Living Room">Living Room</button>
-            <button class="filter-btn" data-room="Master Bedroom">Master Bedroom</button>
-            <button class="filter-btn" data-room="Kitchen">Kitchen</button>
-            <button class="filter-btn" data-room="Outdoor">Outdoor / Security</button>
-          </div>
-        </div>
-
-        <!-- Search & Status Filter Controls -->
-        <div class="search-filter-bar">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="search-devices" placeholder="Search devices by name, room, or type...">
-          </div>
-          <div class="status-filters" id="status-filters">
-            <button class="status-btn active" data-status="all">All States</button>
-            <button class="status-btn" data-status="on">🟢 Active Only</button>
-            <button class="status-btn" data-status="off">⚪ Inactive</button>
-          </div>
-        </div>
-
-        <div id="devices-grid" class="devices-grid">
-
-          <!-- Dynamically filled by app.js -->
-        </div>
-      </section>
-
-      <!-- Device Health Diagnostics & OTA Updates Section -->
-      <section class="panel-card diagnostics-section">
-        <div class="panel-header">
-          <h3><i class="fa-solid fa-heart-pulse" style="color: var(--accent-purple);"></i> System Health & Device Diagnostics</h3>
-          <span class="badge" id="diag-summary-badge" style="background: rgba(192, 132, 252, 0.2); color: var(--accent-purple);">Overall Health: Loading...</span>
-        </div>
-        <div class="diagnostics-grid" id="diagnostics-grid">
-          <!-- Dynamically populated by app.js -->
-        </div>
-      </section>
-
-      <!-- Live Security Surveillance Feed Section -->
-      <section class="panel-card security-section">
-
-        <div class="panel-header">
-          <h3><i class="fa-solid fa-video" style="color: var(--accent-orange);"></i> CCTV Surveillance Monitor</h3>
-          
-          <div class="cam-channels" id="cam-channels">
-            <button class="cam-btn active" data-cam="cam-1">Cam 1: Driveway</button>
-            <button class="cam-btn" data-cam="cam-2">Cam 2: Porch</button>
-            <button class="cam-btn" data-cam="cam-3">Cam 3: Garage</button>
-          </div>
-        </div>
-
-        <div class="camera-feed-container">
-          <div class="camera-viewport" id="camera-viewport">
-            <div class="cam-overlay-top">
-              <span class="cam-badge"><span class="pulse-dot-red"></span> LIVE 1080P</span>
-              <span class="cam-title" id="cam-active-title">CAM 01 — DRIVEWAY SECURITY</span>
-              <span class="cam-clock" id="cam-clock">2026-09-20 15:03:34</span>
-            </div>
-
-            <div class="motion-box" id="motion-box">
-              <span class="motion-label">MOTION DETECTED (VEHICLE)</span>
-            </div>
-
-            <div class="cam-grid-overlay"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Energy Budgeting & Tariff Cost Estimator Section -->
-      <section class="panel-card budget-section">
-        <div class="panel-header">
-          <h3><i class="fa-solid fa-calculator" style="color: var(--accent-green);"></i> Monthly Energy Budget & Cost Estimator</h3>
-          <button id="btn-edit-budget" class="btn btn-sm btn-secondary"><i class="fa-solid fa-gear"></i> Set Budget Target</button>
-        </div>
-        <div class="budget-content">
-          <div class="budget-stats-grid">
-            <div class="budget-stat-box">
-              <span class="budget-stat-label">Monthly Target</span>
-              <h4 id="budget-target-display">350 kWh</h4>
-              <span class="budget-stat-sub" id="budget-rate-display">Rate: $0.15 / kWh</span>
-            </div>
-            <div class="budget-stat-box">
-              <span class="budget-stat-label">Spent to Date</span>
-              <h4 id="budget-spent-display" class="text-success">$27.81</h4>
-              <span class="budget-stat-sub" id="budget-kwh-display">185.4 kWh used</span>
-            </div>
-            <div class="budget-stat-box">
-              <span class="budget-stat-label">Projected End-of-Month</span>
-              <h4 id="budget-projected-display">$55.50</h4>
-              <span class="budget-stat-sub" id="budget-status-tag">Status: On Track</span>
-            </div>
-          </div>
-          <div class="budget-progress-container" style="margin-top: 14px;">
-            <div class="budget-progress-labels">
-              <span>Monthly Budget Consumption</span>
-              <strong id="budget-percent-text">53%</strong>
-            </div>
-            <div class="budget-progress-bar">
-              <div id="budget-progress-fill" class="budget-fill" style="width: 53%;"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Energy Analytics & Audit Logs Section -->
-      <div class="two-column-grid">
-
-
-        <section class="panel-card">
-          <div class="panel-header">
-            <h3><i class="fa-solid fa-chart-simple"></i> Live Energy Consumption Analytics</h3>
-          </div>
-          <div class="chart-container">
-            <canvas id="energyChart"></canvas>
+          <div id="emergency-banner" class="emergency-alert-banner" style="display: none;">
+            <i class="fa-solid fa-shield-cat"></i>
+            <span id="emergency-banner-text">EMERGENCY PROTOCOL ACTIVE: All doors unlocked for immediate evacuation.</span>
           </div>
         </section>
 
-        <section class="panel-card">
-          <div class="panel-header">
-            <h3><i class="fa-solid fa-clock-rotate-left"></i> System Audit Trail</h3>
-            <button id="btn-refresh-logs" class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrows-rotate"></i></button>
+        <!-- Live Environment Metric Cards -->
+        <section class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon bg-orange">
+              <i class="fa-solid fa-temperature-three-quarters"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Indoor Temp</span>
+              <h3 id="stat-temp">24.5 °C</h3>
+              <span class="metric-sub text-success">Target: 22°C</span>
+            </div>
           </div>
-          <div id="logs-list" class="logs-list">
+
+          <div class="metric-card">
+            <div class="metric-icon bg-blue">
+              <i class="fa-solid fa-droplet"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Indoor Humidity</span>
+              <h3 id="stat-humidity">48 %</h3>
+              <span class="metric-sub">Optimal Comfort</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon bg-green">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Active Power</span>
+              <h3 id="stat-power">1.39 kW</h3>
+              <span class="metric-sub" id="stat-daily-kwh">14.8 kWh today</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon bg-purple">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Active Devices</span>
+              <h3 id="stat-active-devices">5 / 12</h3>
+              <span class="metric-sub text-success">All systems normal</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon bg-yellow">
+              <i class="fa-solid fa-sun"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Solar & Weather</span>
+              <h3 id="stat-solar">3.4 kW Solar</h3>
+              <span class="metric-sub" id="stat-weather">28°C Partly Cloudy (AQI 38)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interactive 2D House Floorplan Section -->
+        <section class="floorplan-section">
+          <div class="section-header">
+            <h3><i class="fa-solid fa-house-chimney-window" style="color: var(--primary);"></i> Smart House 2D Floorplan & Heatmap</h3>
+            <span class="badge">Real-Time Sync</span>
+          </div>
+          <div class="floorplan-grid" id="floorplan-grid">
+            <!-- Dynamically populated by app.js -->
+          </div>
+        </section>
+
+        <!-- Quick Automation Routines Bar -->
+        <section class="routines-section">
+          <div class="section-header">
+            <h3><i class="fa-solid fa-bolt-lightning"></i> Automation Engine & Custom Rules</h3>
+            <div>
+              <button id="btn-create-routine" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus"></i> New Custom Rule</button>
+              <span class="badge">One-Click Scenes</span>
+            </div>
+          </div>
+          <div id="routines-grid" class="routines-grid">
             <!-- Dynamically filled by app.js -->
           </div>
         </section>
-      </div>
+
+        <!-- Room Filter Tabs & Device Grid -->
+        <section class="devices-section">
+          <div class="section-header">
+            <h3><i class="fa-solid fa-sliders"></i> Smart Devices & Modules</h3>
+            
+            <div class="room-filters" id="room-filters">
+              <button class="filter-btn active" data-room="all">All Rooms</button>
+              <button class="filter-btn" data-room="Living Room">Living Room</button>
+              <button class="filter-btn" data-room="Master Bedroom">Master Bedroom</button>
+              <button class="filter-btn" data-room="Kitchen">Kitchen</button>
+              <button class="filter-btn" data-room="Outdoor">Outdoor / Security</button>
+            </div>
+          </div>
+
+          <!-- Search & Status Filter Controls -->
+          <div class="search-filter-bar">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="search-devices" placeholder="Search devices by name, room, or type...">
+            </div>
+            <div class="status-filters" id="status-filters">
+              <button class="status-btn active" data-status="all">All States</button>
+              <button class="status-btn" data-status="on">🟢 Active Only</button>
+              <button class="status-btn" data-status="off">⚪ Inactive</button>
+            </div>
+          </div>
+
+          <div id="devices-grid" class="devices-grid">
+            <!-- Dynamically filled by app.js -->
+          </div>
+        </section>
+
+        <!-- Device Health Diagnostics & OTA Updates Section -->
+        <section class="panel-card diagnostics-section">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-heart-pulse" style="color: var(--accent-purple);"></i> System Health & Device Diagnostics</h3>
+            <span class="badge" id="diag-summary-badge" style="background: rgba(192, 132, 252, 0.2); color: var(--accent-purple);">Overall Health: Loading...</span>
+          </div>
+          <div class="diagnostics-grid" id="diagnostics-grid">
+            <!-- Dynamically populated by app.js -->
+          </div>
+        </section>
+
+        <!-- Live Security Surveillance Feed Section -->
+        <section class="panel-card security-section">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-video" style="color: var(--accent-orange);"></i> CCTV Surveillance Monitor</h3>
+            
+            <div class="cam-channels" id="cam-channels">
+              <button class="cam-btn active" data-cam="cam-1">Cam 1: Driveway</button>
+              <button class="cam-btn" data-cam="cam-2">Cam 2: Porch</button>
+              <button class="cam-btn" data-cam="cam-3">Cam 3: Garage</button>
+            </div>
+          </div>
+
+          <div class="camera-feed-container">
+            <div class="camera-viewport" id="camera-viewport">
+              <div class="cam-overlay-top">
+                <span class="cam-badge"><span class="pulse-dot-red"></span> LIVE 1080P</span>
+                <span class="cam-title" id="cam-active-title">CAM 01 — DRIVEWAY SECURITY</span>
+                <span class="cam-clock" id="cam-clock">2026-09-20 15:03:34</span>
+              </div>
+              <div class="motion-box" id="motion-box">
+                <span class="motion-label">MOTION DETECTED (VEHICLE)</span>
+              </div>
+              <div class="cam-grid-overlay"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Energy Budgeting & Tariff Cost Estimator Section -->
+        <section class="panel-card budget-section">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-calculator" style="color: var(--accent-green);"></i> Monthly Energy Budget & Cost Estimator</h3>
+            <button id="btn-edit-budget" class="btn btn-sm btn-secondary"><i class="fa-solid fa-gear"></i> Set Budget Target</button>
+          </div>
+          <div class="budget-content">
+            <div class="budget-stats-grid">
+              <div class="budget-stat-box">
+                <span class="budget-stat-label">Monthly Target</span>
+                <h4 id="budget-target-display">350 kWh</h4>
+                <span class="budget-stat-sub" id="budget-rate-display">Rate: $0.15 / kWh</span>
+              </div>
+              <div class="budget-stat-box">
+                <span class="budget-stat-label">Spent to Date</span>
+                <h4 id="budget-spent-display" class="text-success">$27.81</h4>
+                <span class="budget-stat-sub" id="budget-kwh-display">185.4 kWh used</span>
+              </div>
+              <div class="budget-stat-box">
+                <span class="budget-stat-label">Projected End-of-Month</span>
+                <h4 id="budget-projected-display">$55.50</h4>
+                <span class="budget-stat-sub" id="budget-status-tag">Status: On Track</span>
+              </div>
+            </div>
+            <div class="budget-progress-container" style="margin-top: 14px;">
+              <div class="budget-progress-labels">
+                <span>Monthly Budget Consumption</span>
+                <strong id="budget-percent-text">53%</strong>
+              </div>
+              <div class="budget-progress-bar">
+                <div id="budget-progress-fill" class="budget-fill" style="width: 53%;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Energy Analytics & Audit Logs Section (Dashboard View) -->
+        <div class="two-column-grid">
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-simple"></i> Live Energy Consumption Analytics</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="energyChart"></canvas>
+            </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-clock-rotate-left"></i> System Audit Trail</h3>
+              <button id="btn-refresh-logs" class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
+            <div id="logs-list" class="logs-list"></div>
+          </section>
+        </div>
+
+      </section> <!-- END page-dashboard -->
+
+      <!-- PAGE 2: ROOMS & DEVICES -->
+      <section id="page-rooms" class="app-page">
+        <div class="panel-card" style="padding: 60px; text-align: center;">
+          <i class="fa-solid fa-couch" style="font-size: 48px; color: var(--primary); margin-bottom: 20px;"></i>
+          <h2>Rooms & Devices Manager</h2>
+          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Full room-grouped device management interface coming in the next update.</p>
+        </div>
+      </section>
+
+      <!-- PAGE 3: AUTOMATIONS -->
+      <section id="page-routines" class="app-page">
+        <div class="panel-card" style="padding: 60px; text-align: center;">
+          <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 48px; color: var(--accent-purple); margin-bottom: 20px;"></i>
+          <h2>Automation Routine Manager</h2>
+          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Advanced routine scheduling and execution engine coming in the next update.</p>
+        </div>
+      </section>
+
+      <!-- PAGE 4: ENERGY ANALYTICS (Full-Page Analytics Dashboard) -->
+      <section id="page-analytics" class="app-page">
+        <div class="metrics-grid" id="analytics-stats"></div>
+
+        <div class="two-column-grid" style="grid-template-columns: 3fr 2fr;">
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-line" style="color: var(--primary);"></i> Hourly Consumption Trend</h3>
+              <span class="badge">Last 24 Hours</span>
+            </div>
+            <div style="height: 340px; position: relative;">
+              <canvas id="analyticsLineChart"></canvas>
+            </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-pie" style="color: var(--accent-purple);"></i> Room-wise Distribution</h3>
+            </div>
+            <div style="height: 210px; position: relative;">
+              <canvas id="analyticsDoughnutChart"></canvas>
+            </div>
+            <div id="room-distribution-list" style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;"></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- PAGE 5: AUDIT LOGS (Full-Page Log Viewer) -->
+      <section id="page-logs" class="app-page">
+        <section class="panel-card">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <h3><i class="fa-solid fa-list-check" style="color: var(--accent-orange);"></i> System Audit Log Viewer</h3>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <div class="search-box" style="max-width: 260px; flex: none;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-logs" placeholder="Search logs by user or message...">
+              </div>
+              <button id="btn-export-logs" class="btn btn-secondary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+              <button id="btn-refresh-logs-full" class="btn btn-secondary"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
+            </div>
+          </div>
+          <div id="logs-stats" style="display: flex; gap: 18px; font-size: 12px; color: var(--text-muted); flex-wrap: wrap;"></div>
+          <div id="logs-full-list" class="logs-list" style="max-height: 62vh;"></div>
+        </section>
+      </section>
 
     </main>
   </div>
@@ -449,7 +508,6 @@
       </form>
     </div>
   </div>
-
 
   <!-- Scripts -->
   <script src="js/telemetry.js"></script>
