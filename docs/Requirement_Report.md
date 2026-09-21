@@ -181,7 +181,8 @@ HomePulse is built on a modular MVC (Model-View-Controller) architecture:
 ```
 
 ### Core MVP Capabilities & Features
-* **FLAGSHIP FEATURE: Emergency Safety Lockdown & Hazard Alarm System:** Real-time emergency hazard protocol execution API (`POST /api/emergency/trigger`, `POST /api/emergency/reset`) triggering immediate fire evacuation unlocking, full lighting illuminate, HVAC smoke safety shutdown, or intruder lockdown protocol with armed security logs.
+* **FLAGSHIP FEATURE 1: Emergency Safety Lockdown & Hazard Alarm System:** Real-time emergency hazard protocol execution API (`POST /api/emergency/trigger`, `POST /api/emergency/reset`) triggering immediate fire evacuation unlocking, full lighting illuminate, HVAC smoke safety shutdown, or intruder lockdown protocol with armed security logs.
+* **FLAGSHIP FEATURE 2: AI Natural Language Command Assistant & NLP Engine:** Intelligent natural language parsing API (`POST /api/ai/command`, `GET /api/ai/suggestions`) interpreting voice/text prompts ("Good night", "Activate eco mode", "Set AC to 20°C") and executing batch IoT operations automatically.
 * **Custom Automation Rule Builder Engine:** Dynamic rule creation API (`POST /api/routines`) allowing users to define custom triggers and device target actions.
 * **Monthly Energy Budget & Tariff Estimator:** Real-time financial estimator API (`GET /api/energy-budget`, `PUT /api/energy-budget`) calculating costs to date, projected bills, and budget threshold alerts.
 * **Smart Device Health Diagnostics & OTA Updates Engine:** Predictive diagnostics API (`GET /api/diagnostics`, `POST /api/diagnostics/firmware-update/:id`) monitoring battery levels, Wi-Fi RSSI signals, maintenance issues, and OTA firmware updates.
@@ -207,7 +208,7 @@ The team executed a multi-branch Git workflow mirroring production standards:
 ├── assets/
 │   └── screenshots/
 └── src/
-    ├── server.js                       # Express REST API, Emergency Safety Lockdown, Diagnostics & Budget Engine
+    ├── server.js                       # Express REST API, Emergency Safety Lockdown, AI NLP Engine, Diagnostics & Budget Engine
     ├── data/
     │   ├── devices.json
     │   ├── routines.json               # Preset & Custom automation rules
@@ -232,7 +233,8 @@ The team executed a multi-branch Git workflow mirroring production standards:
 * `feature/2d-floorplan-heatmap` (Interactive 2D Smart House Floorplan View)
 * `feature/custom-rule-builder-and-energy-budgeting` (Custom Rule Creator & Energy Budget Tariff Estimator)
 * `feature/predictive-health-diagnostics` (Device Health Diagnostics, Low Battery Warnings & OTA Updates)
-* `feature/emergency-safety-lockdown` (**FLAGSHIP FEATURE:** Emergency Safety Lockdown & Hazard Alarm System)
+* `feature/emergency-safety-lockdown` (**FLAGSHIP FEATURE 1:** Emergency Safety Lockdown & Hazard Alarm System)
+* `feature/ai-natural-language-assistant` (**FLAGSHIP FEATURE 2:** AI Natural Language Command Assistant & NLP Intent Engine v2.0)
 
 
 

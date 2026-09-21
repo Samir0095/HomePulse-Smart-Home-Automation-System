@@ -1,5 +1,61 @@
 [
   {
+    "id": "log-1790006965441",
+    "timestamp": "2026-09-21T16:09:25.441Z",
+    "type": "system",
+    "user": "Sarah Connor",
+    "message": "🤖 AI Voice Assistant: Processed prompt \"Activate eco saver mode\" -> Activated Eco Mode: Set thermostats to 26°C eco-point, turned off decorative lighting, verified locks."
+  },
+  {
+    "id": "log-1790006965431",
+    "timestamp": "2026-09-21T16:09:25.431Z",
+    "type": "system",
+    "user": "Sarah Connor",
+    "message": "🤖 AI Voice Assistant: Processed prompt \"Good night, turn off living room lights and set AC to 22 degrees\" -> Activated Night Protocol: Doors locked, non-essential lights turned off, HVAC set to 22°C."
+  },
+  {
+    "id": "log-1790006965421",
+    "timestamp": "2026-09-21T16:09:25.421Z",
+    "type": "security",
+    "user": "Test Admin",
+    "message": "🟢 Emergency Hazard Alarm RESET by user. System returning to normal state."
+  },
+  {
+    "id": "log-1790006965415",
+    "timestamp": "2026-09-21T16:09:25.415Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'INTRUDER'! Emergency protocol executed."
+  },
+  {
+    "id": "log-1790006965409",
+    "timestamp": "2026-09-21T16:09:25.409Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'FIRE'! Emergency protocol executed."
+  },
+  {
+    "id": "log-1790006493534",
+    "timestamp": "2026-09-21T16:01:33.534Z",
+    "type": "security",
+    "user": "Test Admin",
+    "message": "🟢 Emergency Hazard Alarm RESET by user. System returning to normal state."
+  },
+  {
+    "id": "log-1790006493521",
+    "timestamp": "2026-09-21T16:01:33.521Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'INTRUDER'! Emergency protocol executed."
+  },
+  {
+    "id": "log-1790006493508",
+    "timestamp": "2026-09-21T16:01:33.508Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'FIRE'! Emergency protocol executed."
+  },
+  {
     "id": "log-1790006065320",
     "timestamp": "2026-09-21T15:54:25.320Z",
     "type": "security",

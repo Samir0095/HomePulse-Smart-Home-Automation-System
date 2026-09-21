@@ -118,7 +118,8 @@ The repository history tracks feature additions executed across distinct develop
 | `feature/2d-floorplan-heatmap` | Added Interactive 2D Smart House Floorplan Heatmap view | Merged -> `main` |
 | `feature/custom-rule-builder-and-energy-budgeting` | Added Custom Automation Rule Creator Engine & Energy Budget Tariff Estimator | Merged -> `main` |
 | `feature/predictive-health-diagnostics` | Added Device Health Diagnostics, Low Battery Alerts & OTA Firmware Updates | Merged -> `main` |
-| `feature/emergency-safety-lockdown` | **FLAGSHIP FEATURE:** Added Emergency Safety Lockdown & Hazard Alarm System (Fire Evacuation Protocol & Intruder Lockdown) | Merged -> `main` |
+| `feature/emergency-safety-lockdown` | **FLAGSHIP FEATURE 1:** Added Emergency Safety Lockdown & Hazard Alarm System (Fire Evacuation Protocol & Intruder Lockdown) | Merged -> `main` |
+| `feature/ai-natural-language-assistant` | **FLAGSHIP FEATURE 2:** Added AI Natural Language Command Assistant & NLP Intent Engine v2.0 | Merged -> `main` |
 
 
 

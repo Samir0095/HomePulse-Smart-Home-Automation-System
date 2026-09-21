@@ -119,6 +119,39 @@
           </div>
         </section>
 
+        <!-- FEATURE: AI Natural Language & Voice Assistant Card -->
+        <section class="panel-card ai-assistant-panel" id="ai-assistant-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-robot" style="color: var(--primary);"></i> HomePulse AI Natural Language & Voice Assistant</h3>
+            <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">NLP Intent Engine v2.0</span>
+          </div>
+
+          <div class="ai-input-container">
+            <div class="ai-input-box">
+              <i class="fa-solid fa-microphone-lines ai-mic-icon"></i>
+              <input type="text" id="ai-command-input" placeholder="Type or click a prompt: e.g. 'Good night, turn off lights and set AC to 22°C'...">
+              <button id="btn-submit-ai" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Execute</button>
+            </div>
+            
+            <div class="ai-quick-chips" id="ai-quick-chips">
+              <button class="chip-btn" data-prompt="Good night, turn off living room lights and set AC to 22°C"><i class="fa-solid fa-moon"></i> 🌙 Good Night</button>
+              <button class="chip-btn" data-prompt="Activate eco saver mode and lock all doors"><i class="fa-solid fa-leaf"></i> 🍃 Eco Saver Mode</button>
+              <button class="chip-btn" data-prompt="Movie time scene with ambient cyan lighting"><i class="fa-solid fa-film"></i> 🎬 Movie Time</button>
+              <button class="chip-btn" data-prompt="Cool down living room to 20 degrees"><i class="fa-solid fa-snowflake"></i> ❄️ Cool to 20°C</button>
+              <button class="chip-btn" data-prompt="Lock all security doors and arm cameras"><i class="fa-solid fa-shield"></i> 🛡️ Lock System</button>
+            </div>
+
+            <div id="ai-response-box" class="ai-response-box" style="display: none;">
+              <div class="ai-response-header">
+                <i class="fa-solid fa-wand-magic-sparkles text-primary"></i>
+                <strong id="ai-response-intent">Intent Recognized: NIGHT_MODE_PROTOCOL</strong>
+                <span class="badge" style="background: rgba(74, 222, 128, 0.2); color: var(--accent-green);">98% Confidence</span>
+              </div>
+              <p id="ai-response-text" class="ai-response-msg">Executed 4 device state updates successfully.</p>
+            </div>
+          </div>
+        </section>
+
         <!-- Live Environment Metric Cards -->
         <section class="metrics-grid">
           <div class="metric-card">

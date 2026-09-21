@@ -1107,6 +1107,65 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   // =====================================================
 
+  // =====================================================
+  // AI Natural Language & Voice Assistant Engine Logic
+  // =====================================================
+  const aiInput = document.getElementById('ai-command-input');
+  const btnSubmitAi = document.getElementById('btn-submit-ai');
+  const aiQuickChips = document.getElementById('ai-quick-chips');
+  const aiResponseBox = document.getElementById('ai-response-box');
+  const aiResponseIntent = document.getElementById('ai-response-intent');
+  const aiResponseText = document.getElementById('ai-response-text');
+
+  async function executeAiCommand(commandText) {
+    if (!commandText || !commandText.trim()) return;
+    try {
+      if (btnSubmitAi) btnSubmitAi.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+      const res = await fetch('/api/ai/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: commandText, user: currentRole })
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (aiResponseIntent) aiResponseIntent.innerText = `Intent Recognized: ${data.intent}`;
+        if (aiResponseText) aiResponseText.innerText = `${data.message} (${data.updatedCount} devices synchronized)`;
+        if (aiResponseBox) aiResponseBox.style.display = 'block';
+
+        // Refresh live device list and logs
+        await fetchDevices();
+        await fetchLogs();
+      }
+    } catch (err) {
+      console.error('Error processing AI command:', err);
+    } finally {
+      if (btnSubmitAi) btnSubmitAi.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Execute';
+    }
+  }
+
+  if (btnSubmitAi && aiInput) {
+    btnSubmitAi.addEventListener('click', () => {
+      executeAiCommand(aiInput.value);
+    });
+
+    aiInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        executeAiCommand(aiInput.value);
+      }
+    });
+  }
+
+  if (aiQuickChips) {
+    aiQuickChips.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip-btn');
+      if (chip) {
+        const prompt = chip.getAttribute('data-prompt');
+        if (aiInput) aiInput.value = prompt;
+        executeAiCommand(prompt);
+      }
+    });
+  }
+
   // Initialize
   await loadInitialData();
 });

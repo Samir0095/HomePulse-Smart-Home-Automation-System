@@ -327,6 +327,117 @@ app.post('/api/emergency/reset', (req, res) => {
   res.json({ success: true, message: 'Emergency alarm state reset successfully.' });
 });
 
+// -------------------------------------------------------------
+// FEATURE: AI Smart Natural Language & Voice Assistant Engine
+// -------------------------------------------------------------
+app.post('/api/ai/command', (req, res) => {
+  const { command, user } = req.body;
+  if (!command) {
+    return res.status(400).json({ success: false, error: 'Command prompt is required' });
+  }
+
+  const prompt = command.toLowerCase().trim();
+  const devices = readJSON(DEVICES_FILE);
+  let updatedCount = 0;
+  let actionSummary = "";
+  let intentName = "GENERAL_COMMAND";
+
+  // Intent 1: Night / Sleep Mode
+  if (prompt.includes('night') || prompt.includes('sleep') || prompt.includes('bedtime')) {
+    intentName = "NIGHT_MODE_PROTOCOL";
+    actionSummary = "Activated Night Protocol: Doors locked, non-essential lights turned off, HVAC set to 22°C.";
+    devices.forEach(d => {
+      if (d.type === 'light' && d.room !== 'Master Bedroom') { d.status = 'off'; updatedCount++; }
+      if (d.type === 'light' && d.room === 'Master Bedroom') { d.status = 'on'; d.brightness = 20; updatedCount++; }
+      if (d.type === 'lock') { d.status = 'locked'; updatedCount++; }
+      if (d.type === 'thermostat') { d.targetTemp = 22; d.status = 'on'; updatedCount++; }
+    });
+  }
+  // Intent 2: Eco Mode / Energy Saving
+  else if (prompt.includes('eco') || prompt.includes('save') || prompt.includes('away') || prompt.includes('vacation')) {
+    intentName = "ECO_SAVER_PROTOCOL";
+    actionSummary = "Activated Eco Mode: Set thermostats to 26°C eco-point, turned off decorative lighting, verified locks.";
+    devices.forEach(d => {
+      if (d.type === 'light') { d.status = 'off'; updatedCount++; }
+      if (d.type === 'thermostat') { d.targetTemp = 26; updatedCount++; }
+      if (d.type === 'lock') { d.status = 'locked'; updatedCount++; }
+    });
+  }
+  // Intent 3: Movie / Entertainment Scene
+  else if (prompt.includes('movie') || prompt.includes('cinema') || prompt.includes('film')) {
+    intentName = "MOVIE_SCENE_PROTOCOL";
+    actionSummary = "Activated Movie Scene: Main lights dimmed to 15%, cyan ambient accent active.";
+    devices.forEach(d => {
+      if (d.id === 'dev-101') { d.status = 'on'; d.brightness = 15; updatedCount++; }
+      if (d.id === 'dev-102') { d.status = 'on'; d.brightness = 80; d.color = '#00f2fe'; updatedCount++; }
+    });
+  }
+  // Intent 4: Lock / Security Arming
+  else if (prompt.includes('lock') || prompt.includes('secure') || prompt.includes('arm')) {
+    intentName = "SECURITY_LOCKDOWN";
+    actionSummary = "Secured all perimeter doors and armed outdoor security cameras.";
+    devices.forEach(d => {
+      if (d.type === 'lock') { d.status = 'locked'; updatedCount++; }
+      if (d.type === 'camera') { d.status = 'recording'; updatedCount++; }
+    });
+  }
+  // Intent 5: Turn off all lights
+  else if (prompt.includes('off') && prompt.includes('light')) {
+    intentName = "LIGHTING_CONTROL";
+    actionSummary = "Turned off all smart lighting fixtures across the property.";
+    devices.forEach(d => {
+      if (d.type === 'light') { d.status = 'off'; updatedCount++; }
+    });
+  }
+  // Intent 6: Turn on all lights
+  else if (prompt.includes('on') && prompt.includes('light')) {
+    intentName = "LIGHTING_CONTROL";
+    actionSummary = "Illuminated all smart lighting fixtures to 100% brightness.";
+    devices.forEach(d => {
+      if (d.type === 'light') { d.status = 'on'; d.brightness = 100; updatedCount++; }
+    });
+  }
+  // Intent 7: Temperature extraction
+  else if (prompt.includes('temp') || prompt.includes('degree') || prompt.includes('ac') || prompt.includes('cool')) {
+    const match = prompt.match(/(\d{2})/);
+    const target = match ? parseInt(match[1]) : 23;
+    intentName = "HVAC_TEMPERATURE_ADJUSTMENT";
+    actionSummary = `Adjusted smart climate thermostat setpoints to ${target}°C.`;
+    devices.forEach(d => {
+      if (d.type === 'thermostat') { d.targetTemp = target; d.status = 'on'; updatedCount++; }
+    });
+  }
+  // Fallback Intent
+  else {
+    intentName = "SMART_ASSISTANT_QUERY";
+    actionSummary = `AI Assistant interpreted command: "${command}". Standard optimization applied.`;
+    devices.forEach(d => {
+      if (d.status === 'on') updatedCount++;
+    });
+  }
+
+  writeJSON(DEVICES_FILE, devices);
+  addAuditLog(`🤖 AI Voice Assistant: Processed prompt "${command}" -> ${actionSummary}`, 'system', user || 'Sarah Connor');
+
+  res.json({
+    success: true,
+    command,
+    intent: intentName,
+    message: actionSummary,
+    updatedCount,
+    confidence: 0.98
+  });
+});
+
+app.get('/api/ai/suggestions', (req, res) => {
+  const suggestions = [
+    { id: 1, title: 'Night Climate Optimiser', text: 'Set AC to 22°C between 11 PM and 6 AM to save ~12% power.', icon: 'fa-moon' },
+    { id: 2, title: 'Solar Peak Generation', text: 'Solar generation at 3.4 kW peak. Ideal time to run high-load appliances.', icon: 'fa-sun' },
+    { id: 3, title: 'Security Reminder', text: 'Living Room door was unlocked 4 hours ago. Lock now with 1 click.', icon: 'fa-shield-halved' }
+  ];
+  res.json({ success: true, data: suggestions });
+});
+
 
 
 

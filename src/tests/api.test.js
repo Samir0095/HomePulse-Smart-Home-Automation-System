@@ -73,6 +73,23 @@ test('HomePulse Server API Endpoint Tests', async (t) => {
     assert.strictEqual(data.success, true);
     assert.ok(data.message.includes('reset'));
   });
+
+  await t.test('POST /api/ai/command should process natural language intent', async () => {
+    const res1 = await makePostRequest(`http://localhost:${TEST_PORT}/api/ai/command`, { command: 'Good night, turn off living room lights and set AC to 22 degrees' });
+    assert.strictEqual(res1.success, true);
+    assert.strictEqual(res1.intent, 'NIGHT_MODE_PROTOCOL');
+
+    const res2 = await makePostRequest(`http://localhost:${TEST_PORT}/api/ai/command`, { command: 'Activate eco saver mode' });
+    assert.strictEqual(res2.success, true);
+    assert.strictEqual(res2.intent, 'ECO_SAVER_PROTOCOL');
+  });
+
+  await t.test('GET /api/ai/suggestions should return smart recommendations', async () => {
+    const data = await makeRequest(`http://localhost:${TEST_PORT}/api/ai/suggestions`);
+    assert.strictEqual(data.success, true);
+    assert.ok(Array.isArray(data.data));
+    assert.ok(data.data.length >= 3);
+  });
 });
 
 function makeRequest(url) {
