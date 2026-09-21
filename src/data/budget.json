@@ -1,0 +1,8 @@
+{
+  "monthlyKWhBudget": 350,
+  "costPerKWh": 0.15,
+  "currency": "$",
+  "alertThresholdPercent": 80,
+  "autoEcoOnExceed": true,
+  "lastUpdated": "2026-09-21T20:00:00Z"
+}

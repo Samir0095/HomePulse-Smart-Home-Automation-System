@@ -161,15 +161,18 @@
 
       <!-- Quick Automation Routines Bar -->
       <section class="routines-section">
-
         <div class="section-header">
-          <h3><i class="fa-solid fa-bolt-lightning"></i> Quick Automation Routines</h3>
-          <span class="badge">One-Click Scenes</span>
+          <h3><i class="fa-solid fa-bolt-lightning"></i> Automation Engine & Custom Rules</h3>
+          <div>
+            <button id="btn-create-routine" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus"></i> New Custom Rule</button>
+            <span class="badge">One-Click Scenes</span>
+          </div>
         </div>
         <div id="routines-grid" class="routines-grid">
           <!-- Dynamically filled by app.js -->
         </div>
       </section>
+
 
       <!-- Room Filter Tabs & Device Grid -->
       <section class="devices-section">
@@ -233,8 +236,45 @@
         </div>
       </section>
 
+      <!-- Energy Budgeting & Tariff Cost Estimator Section -->
+      <section class="panel-card budget-section">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-calculator" style="color: var(--accent-green);"></i> Monthly Energy Budget & Cost Estimator</h3>
+          <button id="btn-edit-budget" class="btn btn-sm btn-secondary"><i class="fa-solid fa-gear"></i> Set Budget Target</button>
+        </div>
+        <div class="budget-content">
+          <div class="budget-stats-grid">
+            <div class="budget-stat-box">
+              <span class="budget-stat-label">Monthly Target</span>
+              <h4 id="budget-target-display">350 kWh</h4>
+              <span class="budget-stat-sub" id="budget-rate-display">Rate: $0.15 / kWh</span>
+            </div>
+            <div class="budget-stat-box">
+              <span class="budget-stat-label">Spent to Date</span>
+              <h4 id="budget-spent-display" class="text-success">$27.81</h4>
+              <span class="budget-stat-sub" id="budget-kwh-display">185.4 kWh used</span>
+            </div>
+            <div class="budget-stat-box">
+              <span class="budget-stat-label">Projected End-of-Month</span>
+              <h4 id="budget-projected-display">$55.50</h4>
+              <span class="budget-stat-sub" id="budget-status-tag">Status: On Track</span>
+            </div>
+          </div>
+          <div class="budget-progress-container" style="margin-top: 14px;">
+            <div class="budget-progress-labels">
+              <span>Monthly Budget Consumption</span>
+              <strong id="budget-percent-text">53%</strong>
+            </div>
+            <div class="budget-progress-bar">
+              <div id="budget-progress-fill" class="budget-fill" style="width: 53%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Energy Analytics & Audit Logs Section -->
       <div class="two-column-grid">
+
 
         <section class="panel-card">
           <div class="panel-header">
@@ -305,6 +345,72 @@
       </form>
     </div>
   </div>
+
+  <!-- Create Custom Routine Modal -->
+  <div id="modal-create-routine" class="modal">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Create Custom Automation Rule</h3>
+        <button class="close-modal" id="close-routine-modal">&times;</button>
+      </div>
+      <form id="form-create-routine">
+        <div class="form-group">
+          <label for="rt-name">Rule Name</label>
+          <input type="text" id="rt-name" required placeholder="e.g., Eco Sleep Mode">
+        </div>
+        <div class="form-group">
+          <label for="rt-desc">Description</label>
+          <input type="text" id="rt-desc" required placeholder="e.g., Turns off living room lights and locks door at night">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rt-target-dev">Target Device</label>
+            <select id="rt-target-dev" required>
+              <!-- Filled dynamically by app.js -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rt-action-val">Target State</label>
+            <select id="rt-action-val" required>
+              <option value="off">Turn OFF</option>
+              <option value="on">Turn ON</option>
+              <option value="locked">LOCK Door</option>
+              <option value="unlocked">UNLOCK Door</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-routine">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Automation Rule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Set Energy Budget Modal -->
+  <div id="modal-edit-budget" class="modal">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-calculator"></i> Set Monthly Energy Budget</h3>
+        <button class="close-modal" id="close-budget-modal">&times;</button>
+      </div>
+      <form id="form-edit-budget">
+        <div class="form-group">
+          <label for="bg-limit">Monthly kWh Target Limit</label>
+          <input type="number" id="bg-limit" required value="350" min="50" max="2000">
+        </div>
+        <div class="form-group">
+          <label for="bg-rate">Electricity Rate ($ / kWh)</label>
+          <input type="number" id="bg-rate" step="0.01" required value="0.15" min="0.01" max="5.00">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-budget">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Budget Target</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 
   <!-- Scripts -->
   <script src="js/telemetry.js"></script>

@@ -755,12 +755,78 @@ input:checked + .slider:before {
 
 .btn-icon:hover { color: var(--accent-red); }
 
+/* Energy Budgeting & Cost Estimator Widget */
+.budget-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.budget-stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.budget-stat-box h4 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 4px 0;
+}
+
+.budget-stat-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.budget-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.budget-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.budget-progress-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.budget-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #4ade80);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.budget-fill.warning {
+  background: linear-gradient(90deg, #fb923c, #f87171);
+}
+
 /* Two Column Panels */
 .two-column-grid {
   display: grid;
   grid-template-columns: 3fr 2fr;
   gap: 20px;
 }
+
 
 /* CCTV Surveillance Monitor Styles */
 .cam-channels {

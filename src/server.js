@@ -17,6 +17,8 @@ const DEVICES_FILE = path.join(DATA_DIR, 'devices.json');
 const ROUTINES_FILE = path.join(DATA_DIR, 'routines.json');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const LOGS_FILE = path.join(DATA_DIR, 'logs.json');
+const BUDGET_FILE = path.join(DATA_DIR, 'budget.json');
+
 
 // Helper to read JSON
 function readJSON(filePath) {
@@ -164,6 +166,84 @@ app.post('/api/routines/trigger/:id', (req, res) => {
 
   res.json({ success: true, message: `Routine '${routine.name}' triggered successfully`, updatedCount });
 });
+
+app.post('/api/routines', (req, res) => {
+  const { name, description, icon, actions } = req.body;
+  if (!name || !actions || !Array.isArray(actions)) {
+    return res.status(400).json({ success: false, error: 'Name and actions array are required' });
+  }
+
+  const routines = readJSON(ROUTINES_FILE);
+  const newRoutine = {
+    id: `routine-${Date.now()}`,
+    name,
+    icon: icon || 'fa-wand-magic-sparkles',
+    description: description || 'Custom user automation rule.',
+    actions,
+    lastTriggered: 'Never'
+  };
+
+  routines.push(newRoutine);
+  writeJSON(ROUTINES_FILE, routines);
+  addAuditLog(`Created custom automation rule: '${newRoutine.name}'`, 'routine', req.body.user || 'Admin');
+
+  res.status(201).json({ success: true, data: newRoutine });
+});
+
+app.delete('/api/routines/:id', (req, res) => {
+  let routines = readJSON(ROUTINES_FILE);
+  const routine = routines.find(r => r.id === req.params.id);
+  if (!routine) return res.status(404).json({ success: false, error: 'Routine not found' });
+
+  routines = routines.filter(r => r.id !== req.params.id);
+  writeJSON(ROUTINES_FILE, routines);
+  addAuditLog(`Deleted automation routine: '${routine.name}'`, 'routine', 'Admin');
+
+  res.json({ success: true, message: `Routine ${req.params.id} deleted successfully` });
+});
+
+// Energy Budget & Cost Estimator API
+app.get('/api/energy-budget', (req, res) => {
+  const budget = readJSON(BUDGET_FILE) || {
+    monthlyKWhBudget: 350,
+    costPerKWh: 0.15,
+    currency: "$",
+    alertThresholdPercent: 80
+  };
+
+  const currentKWh = 185.4; // Simulated month-to-date kWh usage
+  const costToDate = Number((currentKWh * budget.costPerKWh).toFixed(2));
+  const projectedKWh = 370.0;
+  const projectedCost = Number((projectedKWh * budget.costPerKWh).toFixed(2));
+  const usagePercent = Math.round((currentKWh / budget.monthlyKWhBudget) * 100);
+
+  res.json({
+    success: true,
+    data: {
+      ...budget,
+      currentKWh,
+      costToDate,
+      projectedKWh,
+      projectedCost,
+      usagePercent,
+      isExceeded: usagePercent >= budget.alertThresholdPercent
+    }
+  });
+});
+
+app.put('/api/energy-budget', (req, res) => {
+  let budget = readJSON(BUDGET_FILE) || {};
+  budget = {
+    ...budget,
+    ...req.body,
+    lastUpdated: new Date().toISOString()
+  };
+  writeJSON(BUDGET_FILE, budget);
+  addAuditLog(`Updated Energy Budget target to ${budget.monthlyKWhBudget} kWh at ${budget.currency}${budget.costPerKWh}/kWh`, 'system', req.body.updatedBy || 'Admin');
+
+  res.json({ success: true, data: budget });
+});
+
 
 // 3. Users API
 app.get('/api/users', (req, res) => {

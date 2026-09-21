@@ -180,10 +180,14 @@ HomePulse is built on a modular MVC (Model-View-Controller) architecture:
                                [Telemetry Generator]
 ```
 
-### Core MVP Capabilities
+### Core MVP Capabilities & Features
 * **Interactive SPA Dashboard:** Glassmorphism UI with real-time room filters.
-* **Device Control Engine:** Power switches, brightness sliders, temperature controls, and lock toggles.
+* **Device Control Engine:** Power switches, brightness sliders, RGB color swatches, temperature controls, and lock toggles.
 * **Automated Routine Scene Engine:** One-click execution of "Away Mode", "Night Mode", "Movie Time", and "Energy Saver".
+* **Custom Automation Rule Builder Engine:** Dynamic rule creation API (`POST /api/routines`) allowing users to define custom triggers and device target actions.
+* **Monthly Energy Budget & Tariff Estimator:** Real-time financial estimator API (`GET /api/energy-budget`, `PUT /api/energy-budget`) calculating costs to date, projected bills, and budget threshold alerts.
+* **CCTV Surveillance Monitor:** Live stream preview with Cam 1/2/3 channel switching and motion detection overlays.
+* **Interactive 2D House Floorplan Heatmap:** Real-time 2D room status synchronization.
 * **Live Energy Analytics:** Chart.js integration presenting hourly consumption (kWh) trends.
 * **Audit Trail Drawer:** Real-time log listing system events and user actions.
 
@@ -204,10 +208,11 @@ The team executed a multi-branch Git workflow mirroring production standards:
 ├── assets/
 │   └── screenshots/
 └── src/
-    ├── server.js
+    ├── server.js                       # Express REST API, Custom Routine Engine & Budget API
     ├── data/
     │   ├── devices.json
-    │   ├── routines.json
+    │   ├── routines.json               # Preset & Custom automation rules
+    │   ├── budget.json                 # Monthly energy budget & tariff data
     │   ├── users.json
     │   └── logs.json
     ├── public/
@@ -218,11 +223,15 @@ The team executed a multi-branch Git workflow mirroring production standards:
         └── api.test.js
 ```
 
-### Git Branching Model & PR Log
-* `main` (Production Stable Branch)
-* `member1-feature` (Requirements Analysis, Express REST API, JSON Persistence)
-* `member2-feature` (Process Model Analysis, Telemetry Engine, Routine Execution Engine)
-* `member3-feature` (Glassmorphism Dashboard UI, Chart.js Analytics, Report & Documentation)
+### Git Branching Model & Feature Branch Log
+* `main` (Production Stable Base Branch)
+* `feature/solar-weather-widget` (Outdoor Weather & Solar Panel Power Card)
+* `feature/device-search-filter` (Real-Time Device Search Bar & Active Status Filter)
+* `feature/rgb-color-palette` (Interactive RGB Smart Lighting Color Swatch Palette)
+* `feature/cctv-surveillance-monitor` (CCTV Surveillance Monitor & Motion Detection)
+* `feature/2d-floorplan-heatmap` (Interactive 2D Smart House Floorplan View)
+* `feature/custom-rule-builder-and-energy-budgeting` (**New Feature:** Custom Rule Creator & Energy Budget Tariff Estimator Engine)
+
 
 ---
 

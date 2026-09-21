@@ -83,10 +83,11 @@ flowchart TD
 ├── assets/
 │   └── screenshots/                    # UI Dashboard Screenshots
 └── src/
-    ├── server.js                       # Express REST API & Telemetry server
+    ├── server.js                       # Express REST API, Custom Routine Engine & Budget API
     ├── data/                           # JSON Persistence layer
     │   ├── devices.json                # Device definitions & states
     │   ├── routines.json               # Automation rules
+    │   ├── budget.json                 # Monthly energy budget & tariff data
     │   ├── users.json                  # User roles & credentials
     │   └── logs.json                   # System audit logs
     ├── public/                         # Frontend Single Page App
@@ -102,8 +103,23 @@ flowchart TD
 
 ---
 
+## 🌿 GitHub Collaboration & Feature Branching Model
 
+The repository history tracks feature additions executed across distinct developer feature branches:
+
+| Branch Name | Primary Scope & Feature Added | PR Link / Status |
+|---|---|---|
+| `main` | Production Stable Release | Base Branch |
+| `feature/solar-weather-widget` | Added Live Outdoor Weather & Solar Power Generation Card | Merged -> `main` |
+| `feature/device-search-filter` | Added Real-Time Device Search Bar & Active/Inactive Status Filters | Merged -> `main` |
+| `feature/rgb-color-palette` | Added Interactive RGB Smart Lighting Color Swatch Palette | Merged -> `main` |
+| `feature/cctv-surveillance-monitor` | Added CCTV Surveillance Monitor (Cam 1/2/3 switching & motion alert) | Merged -> `main` |
+| `feature/2d-floorplan-heatmap` | Added Interactive 2D Smart House Floorplan Heatmap view | Merged -> `main` |
+| `feature/custom-rule-builder-and-energy-budgeting` | **NEW FEATURE:** Added Custom Automation Rule Creator Engine & Energy Budget Tariff Estimator API | Merged -> `main` |
+
+---
 
 ## 📄 License & Attribution
 
 Developed for **Rajshahi University of Engineering & Technology (RUET)**, Department of Computer Science & Engineering — Course CSE 3206.
+

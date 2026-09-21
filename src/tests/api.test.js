@@ -39,6 +39,14 @@ test('HomePulse Server API Endpoint Tests', async (t) => {
     assert.ok(typeof data.data.ambientTemp === 'number');
     assert.ok(typeof data.data.currentPowerKw === 'number');
   });
+
+  await t.test('GET /api/energy-budget should return tariff cost estimator metrics', async () => {
+    const data = await makeRequest(`http://localhost:${TEST_PORT}/api/energy-budget`);
+    assert.strictEqual(data.success, true);
+    assert.ok(typeof data.data.monthlyKWhBudget === 'number');
+    assert.ok(typeof data.data.costToDate === 'number');
+    assert.ok(typeof data.data.projectedCost === 'number');
+  });
 });
 
 function makeRequest(url) {

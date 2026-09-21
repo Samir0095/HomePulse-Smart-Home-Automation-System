@@ -49,7 +49,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchDevices();
     await fetchRoutines();
     await fetchLogs();
+    await fetchEnergyBudget();
   }
+
+  // Fetch Energy Budget & Tariff Estimator Data
+  async function fetchEnergyBudget() {
+    try {
+      const res = await fetch('/api/energy-budget');
+      const data = await res.json();
+      if (data.success) {
+        renderEnergyBudget(data.data);
+      }
+    } catch (err) {
+      console.error('Error fetching energy budget:', err);
+    }
+  }
+
+  function renderEnergyBudget(budget) {
+    const targetDisplay = document.getElementById('budget-target-display');
+    const rateDisplay = document.getElementById('budget-rate-display');
+    const spentDisplay = document.getElementById('budget-spent-display');
+    const kwhDisplay = document.getElementById('budget-kwh-display');
+    const projectedDisplay = document.getElementById('budget-projected-display');
+    const statusTag = document.getElementById('budget-status-tag');
+    const percentText = document.getElementById('budget-percent-text');
+    const progressFill = document.getElementById('budget-progress-fill');
+
+    if (targetDisplay) targetDisplay.innerText = `${budget.monthlyKWhBudget} kWh`;
+    if (rateDisplay) rateDisplay.innerText = `Rate: ${budget.currency}${budget.costPerKWh} / kWh`;
+    if (spentDisplay) spentDisplay.innerText = `${budget.currency}${budget.costToDate}`;
+    if (kwhDisplay) kwhDisplay.innerText = `${budget.currentKWh} kWh used`;
+    if (projectedDisplay) projectedDisplay.innerText = `${budget.currency}${budget.projectedCost}`;
+    if (percentText) percentText.innerText = `${budget.usagePercent}%`;
+
+    if (progressFill) {
+      progressFill.style.width = `${Math.min(100, budget.usagePercent)}%`;
+      if (budget.isExceeded) {
+        progressFill.classList.add('warning');
+        if (statusTag) {
+          statusTag.innerText = 'STATUS: BUDGET EXCEEDED (ECO MODE RECOMMENDED)';
+          statusTag.style.color = 'var(--accent-red)';
+        }
+      } else {
+        progressFill.classList.remove('warning');
+        if (statusTag) {
+          statusTag.innerText = 'Status: On Track';
+          statusTag.style.color = 'var(--text-muted)';
+        }
+      }
+    }
+  }
+
 
   // Fetch Devices from Backend
   async function fetchDevices() {
@@ -534,6 +584,90 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (closeAddModal) closeAddModal.addEventListener('click', () => modalAddDevice.classList.remove('open'));
   if (btnCancelDevice) btnCancelDevice.addEventListener('click', () => modalAddDevice.classList.remove('open'));
 
+  // Custom Routine Modal Handlers
+  const btnCreateRoutine = document.getElementById('btn-create-routine');
+  const modalCreateRoutine = document.getElementById('modal-create-routine');
+  const closeRoutineModal = document.getElementById('close-routine-modal');
+  const btnCancelRoutine = document.getElementById('btn-cancel-routine');
+  const formCreateRoutine = document.getElementById('form-create-routine');
+  const rtTargetDevSelect = document.getElementById('rt-target-dev');
+
+  if (btnCreateRoutine) {
+    btnCreateRoutine.addEventListener('click', () => {
+      // Populate target devices in dropdown
+      if (rtTargetDevSelect) {
+        rtTargetDevSelect.innerHTML = devices.map(d => `<option value="${d.id}">${d.name} (${d.room})</option>`).join('');
+      }
+      modalCreateRoutine.classList.add('open');
+    });
+  }
+  if (closeRoutineModal) closeRoutineModal.addEventListener('click', () => modalCreateRoutine.classList.remove('open'));
+  if (btnCancelRoutine) btnCancelRoutine.addEventListener('click', () => modalCreateRoutine.classList.remove('open'));
+
+  if (formCreateRoutine) {
+    formCreateRoutine.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('rt-name').value;
+      const description = document.getElementById('rt-desc').value;
+      const deviceId = rtTargetDevSelect.value;
+      const value = document.getElementById('rt-action-val').value;
+
+      const actions = [{ deviceId, property: 'status', value }];
+
+      try {
+        const res = await fetch('/api/routines', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, description, actions, user: currentUserRole })
+        });
+        const data = await res.json();
+        if (data.success) {
+          modalCreateRoutine.classList.remove('open');
+          formCreateRoutine.reset();
+          await fetchRoutines();
+          await fetchLogs();
+        }
+      } catch (err) {
+        console.error('Error creating custom routine:', err);
+      }
+    });
+  }
+
+  // Energy Budget Modal Handlers
+  const btnEditBudget = document.getElementById('btn-edit-budget');
+  const modalEditBudget = document.getElementById('modal-edit-budget');
+  const closeBudgetModal = document.getElementById('close-budget-modal');
+  const btnCancelBudget = document.getElementById('btn-cancel-budget');
+  const formEditBudget = document.getElementById('form-edit-budget');
+
+  if (btnEditBudget) btnEditBudget.addEventListener('click', () => modalEditBudget.classList.add('open'));
+  if (closeBudgetModal) closeBudgetModal.addEventListener('click', () => modalEditBudget.classList.remove('open'));
+  if (btnCancelBudget) btnCancelBudget.addEventListener('click', () => modalEditBudget.classList.remove('open'));
+
+  if (formEditBudget) {
+    formEditBudget.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const monthlyKWhBudget = Number(document.getElementById('bg-limit').value);
+      const costPerKWh = Number(document.getElementById('bg-rate').value);
+
+      try {
+        const res = await fetch('/api/energy-budget', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ monthlyKWhBudget, costPerKWh, updatedBy: currentUserRole })
+        });
+        const data = await res.json();
+        if (data.success) {
+          modalEditBudget.classList.remove('open');
+          await fetchEnergyBudget();
+          await fetchLogs();
+        }
+      } catch (err) {
+        console.error('Error updating energy budget:', err);
+      }
+    });
+  }
+
   // Form Submit: Add New Device
   if (formAddDevice) {
     formAddDevice.addEventListener('submit', async (e) => {
@@ -561,6 +695,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
   }
+
 
   if (btnRefreshLogs) {
     btnRefreshLogs.addEventListener('click', fetchLogs);
