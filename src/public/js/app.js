@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchDevices();
     await fetchRoutines();
     await fetchLogs();
+    await fetchEnergyAnalytics();
   }
 
   // Fetch Devices from Backend
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Fetch Audit Logs (PR #2: now stores ALL logs for the full-page viewer)
+  // Fetch Audit Logs (PR #2: stores ALL logs for full-page viewer)
   async function fetchLogs() {
     try {
       const res = await fetch('/api/logs');
@@ -589,6 +590,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       const allowed = (tabName === 'dashboard' || tabName === 'rooms') && currentUserRole === 'Admin';
       btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
     }
+
+    // PR #3: build analytics charts the first time this page is opened
+    if (tabName === 'analytics') initAnalyticsCharts();
   }
 
   document.querySelectorAll('.nav-item').forEach(item => {
@@ -692,6 +696,140 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   if (btnExportLogs) btnExportLogs.addEventListener('click', exportLogsCSV);
   if (btnRefreshLogsFull) btnRefreshLogsFull.addEventListener('click', fetchLogs);
+  // =====================================================
+
+  // =====================================================
+  // PR #3: Full-Page Energy Analytics Dashboard (Chart.js)
+  // =====================================================
+  let analyticsData = null;
+  let analyticsChartsReady = false;
+
+  async function fetchEnergyAnalytics() {
+    try {
+      const res = await fetch('/api/energy-analytics');
+      const data = await res.json();
+      if (data.success) {
+        analyticsData = data;
+        renderAnalyticsStats();
+        renderRoomDistribution();
+        if (currentTab === 'analytics') initAnalyticsCharts();
+      }
+    } catch (err) {
+      console.error('Error fetching energy analytics:', err);
+    }
+  }
+
+  function renderAnalyticsStats() {
+    const el = document.getElementById('analytics-stats');
+    if (!el || !analyticsData) return;
+    const totalKwh = analyticsData.hourlyData.reduce((s, h) => s + h.kWh, 0).toFixed(2);
+    const peak = analyticsData.hourlyData.reduce((a, b) => (b.kWh > a.kWh ? b : a));
+    const cost = (totalKwh * 12.5).toFixed(0);
+    const solarKwh = (totalKwh * 0.34).toFixed(1);
+    el.innerHTML = `
+      <div class="metric-card">
+        <div class="metric-icon bg-green"><i class="fa-solid fa-bolt"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Total Today</span>
+          <h3>${totalKwh} kWh</h3>
+          <span class="metric-sub">Sum of hourly usage</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon bg-orange"><i class="fa-solid fa-fire"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Peak Hour</span>
+          <h3>${peak.hour}</h3>
+          <span class="metric-sub">${peak.kWh} kWh consumed</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon bg-blue"><i class="fa-solid fa-money-bill-wave"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Estimated Cost</span>
+          <h3>৳ ${cost}</h3>
+          <span class="metric-sub">At ৳12.50 per kWh</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon bg-yellow"><i class="fa-solid fa-sun"></i></div>
+        <div class="metric-data">
+          <span class="metric-label">Solar Offset</span>
+          <h3>34%</h3>
+          <span class="metric-sub">~${solarKwh} kWh from solar</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderRoomDistribution() {
+    const list = document.getElementById('room-distribution-list');
+    if (!list || !analyticsData) return;
+    const colors = ['#38bdf8', '#4ade80', '#c084fc', '#fb923c'];
+    list.innerHTML = analyticsData.roomDistribution.map((r, i) => `
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+          <span style="color: var(--text-main);"><i class="fa-solid fa-circle" style="color: ${colors[i % colors.length]}; font-size: 8px; margin-right: 6px;"></i>${r.room}</span>
+          <span style="color: var(--text-muted);">${r.percentage}% · ${r.watts} W</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.08); border-radius: 6px; overflow: hidden;">
+          <div style="height: 100%; width: ${r.percentage}%; background: ${colors[i % colors.length]}; border-radius: 6px;"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function initAnalyticsCharts() {
+    if (analyticsChartsReady || !analyticsData || !window.Chart) return;
+    const lineCtx = document.getElementById('analyticsLineChart');
+    const doughnutCtx = document.getElementById('analyticsDoughnutChart');
+    if (!lineCtx || !doughnutCtx) return;
+
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: analyticsData.hourlyData.map(h => h.hour),
+        datasets: [{
+          label: 'Energy Usage (kWh)',
+          data: analyticsData.hourlyData.map(h => h.kWh),
+          borderColor: '#38bdf8',
+          backgroundColor: 'rgba(56, 189, 248, 0.18)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#38bdf8'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#f8fafc' } } },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        }
+      }
+    });
+
+    new Chart(doughnutCtx, {
+      type: 'doughnut',
+      data: {
+        labels: analyticsData.roomDistribution.map(r => r.room),
+        datasets: [{
+          data: analyticsData.roomDistribution.map(r => r.percentage),
+          backgroundColor: ['#38bdf8', '#4ade80', '#c084fc', '#fb923c'],
+          borderColor: '#0f172a',
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } }
+      }
+    });
+
+    analyticsChartsReady = true;
+  }
   // =====================================================
 
   // Initialize

@@ -264,12 +264,30 @@
         </div>
       </section>
 
-      <!-- PAGE 4: ENERGY ANALYTICS (Placeholder for PR #3) -->
+      <!-- PAGE 4: ENERGY ANALYTICS (PR #3: Full-Page Analytics Dashboard) -->
       <section id="page-analytics" class="app-page">
-        <div class="panel-card" style="padding: 60px; text-align: center;">
-          <i class="fa-solid fa-chart-line" style="font-size: 48px; color: var(--accent-green); margin-bottom: 20px;"></i>
-          <h2>Deep Energy Analytics</h2>
-          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Detailed hourly consumption charts and cost analysis coming in the next update.</p>
+        <div class="metrics-grid" id="analytics-stats"></div>
+
+        <div class="two-column-grid" style="grid-template-columns: 3fr 2fr;">
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-line" style="color: var(--primary);"></i> Hourly Consumption Trend</h3>
+              <span class="badge">Last 24 Hours</span>
+            </div>
+            <div style="height: 340px; position: relative;">
+              <canvas id="analyticsLineChart"></canvas>
+            </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-pie" style="color: var(--accent-purple);"></i> Room-wise Distribution</h3>
+            </div>
+            <div style="height: 210px; position: relative;">
+              <canvas id="analyticsDoughnutChart"></canvas>
+            </div>
+            <div id="room-distribution-list" style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;"></div>
+          </section>
         </div>
       </section>
 
