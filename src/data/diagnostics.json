@@ -1,0 +1,42 @@
+[
+  {
+    "deviceId": "dev-104",
+    "deviceName": "Front Door Smart Lock",
+    "batteryLevel": 18,
+    "wifiSignalRssi": -65,
+    "firmwareVersion": "v1.2.4",
+    "updateAvailable": "v2.0.1",
+    "status": "warning",
+    "issue": "Low Battery Level (18%) - Replace Batteries Soon"
+  },
+  {
+    "deviceId": "dev-111",
+    "deviceName": "Driveway Security Camera",
+    "batteryLevel": 100,
+    "wifiSignalRssi": -84,
+    "firmwareVersion": "v3.1.0",
+    "updateAvailable": null,
+    "status": "warning",
+    "issue": "Weak Wi-Fi Signal (-84 dBm) - Check Router Proximity"
+  },
+  {
+    "deviceId": "dev-103",
+    "deviceName": "Central HVAC Thermostat",
+    "batteryLevel": 100,
+    "wifiSignalRssi": -48,
+    "firmwareVersion": "v2.4.0",
+    "updateAvailable": "v2.5.0",
+    "status": "good",
+    "issue": "Firmware Update v2.5.0 Available"
+  },
+  {
+    "deviceId": "dev-101",
+    "deviceName": "Living Room Main Light",
+    "batteryLevel": 100,
+    "wifiSignalRssi": -52,
+    "firmwareVersion": "v1.0.8",
+    "updateAvailable": null,
+    "status": "optimal",
+    "issue": "System Normal"
+  }
+]

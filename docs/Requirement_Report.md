@@ -181,11 +181,10 @@ HomePulse is built on a modular MVC (Model-View-Controller) architecture:
 ```
 
 ### Core MVP Capabilities & Features
-* **Interactive SPA Dashboard:** Glassmorphism UI with real-time room filters.
-* **Device Control Engine:** Power switches, brightness sliders, RGB color swatches, temperature controls, and lock toggles.
-* **Automated Routine Scene Engine:** One-click execution of "Away Mode", "Night Mode", "Movie Time", and "Energy Saver".
+* **FLAGSHIP FEATURE: Emergency Safety Lockdown & Hazard Alarm System:** Real-time emergency hazard protocol execution API (`POST /api/emergency/trigger`, `POST /api/emergency/reset`) triggering immediate fire evacuation unlocking, full lighting illuminate, HVAC smoke safety shutdown, or intruder lockdown protocol with armed security logs.
 * **Custom Automation Rule Builder Engine:** Dynamic rule creation API (`POST /api/routines`) allowing users to define custom triggers and device target actions.
 * **Monthly Energy Budget & Tariff Estimator:** Real-time financial estimator API (`GET /api/energy-budget`, `PUT /api/energy-budget`) calculating costs to date, projected bills, and budget threshold alerts.
+* **Smart Device Health Diagnostics & OTA Updates Engine:** Predictive diagnostics API (`GET /api/diagnostics`, `POST /api/diagnostics/firmware-update/:id`) monitoring battery levels, Wi-Fi RSSI signals, maintenance issues, and OTA firmware updates.
 * **CCTV Surveillance Monitor:** Live stream preview with Cam 1/2/3 channel switching and motion detection overlays.
 * **Interactive 2D House Floorplan Heatmap:** Real-time 2D room status synchronization.
 * **Live Energy Analytics:** Chart.js integration presenting hourly consumption (kWh) trends.
@@ -208,11 +207,12 @@ The team executed a multi-branch Git workflow mirroring production standards:
 ├── assets/
 │   └── screenshots/
 └── src/
-    ├── server.js                       # Express REST API, Custom Routine Engine & Budget API
+    ├── server.js                       # Express REST API, Emergency Safety Lockdown, Diagnostics & Budget Engine
     ├── data/
     │   ├── devices.json
     │   ├── routines.json               # Preset & Custom automation rules
     │   ├── budget.json                 # Monthly energy budget & tariff data
+    │   ├── diagnostics.json            # Device battery, signal & firmware data
     │   ├── users.json
     │   └── logs.json
     ├── public/
@@ -230,7 +230,11 @@ The team executed a multi-branch Git workflow mirroring production standards:
 * `feature/rgb-color-palette` (Interactive RGB Smart Lighting Color Swatch Palette)
 * `feature/cctv-surveillance-monitor` (CCTV Surveillance Monitor & Motion Detection)
 * `feature/2d-floorplan-heatmap` (Interactive 2D Smart House Floorplan View)
-* `feature/custom-rule-builder-and-energy-budgeting` (**New Feature:** Custom Rule Creator & Energy Budget Tariff Estimator Engine)
+* `feature/custom-rule-builder-and-energy-budgeting` (Custom Rule Creator & Energy Budget Tariff Estimator)
+* `feature/predictive-health-diagnostics` (Device Health Diagnostics, Low Battery Warnings & OTA Updates)
+* `feature/emergency-safety-lockdown` (**FLAGSHIP FEATURE:** Emergency Safety Lockdown & Hazard Alarm System)
+
+
 
 
 ---

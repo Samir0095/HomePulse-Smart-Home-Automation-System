@@ -5,10 +5,11 @@
     "type": "light",
     "room": "Living Room",
     "status": "on",
-    "brightness": 85,
+    "brightness": 100,
     "color": "#fffaed",
     "powerDrawWatts": 12,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:35:41.931Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-102",
@@ -16,23 +17,25 @@
     "type": "light",
     "room": "Living Room",
     "status": "on",
-    "brightness": 50,
+    "brightness": 100,
     "color": "#00f2fe",
     "powerDrawWatts": 8,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:07:48.736Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-103",
     "name": "Central HVAC Thermostat",
     "type": "thermostat",
     "room": "Living Room",
-    "status": "on",
-    "targetTemp": 22,
+    "status": "off",
+    "targetTemp": 25,
     "currentTemp": 24.5,
     "humidity": 48,
     "mode": "cool",
     "powerDrawWatts": 1200,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:07:48.736Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-104",
@@ -42,18 +45,19 @@
     "status": "locked",
     "batteryLevel": 92,
     "powerDrawWatts": 0.5,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:07:43.358Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-105",
     "name": "Master Bedroom Ceiling Light",
     "type": "light",
     "room": "Master Bedroom",
-    "status": "off",
-    "brightness": 0,
+    "status": "on",
+    "brightness": 100,
     "color": "#ffffff",
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T07:02:10.559Z",
+    "lastUpdated": "2026-09-21T13:28:25.096Z",
     "updatedBy": "Admin"
   },
   {
@@ -62,12 +66,13 @@
     "type": "thermostat",
     "room": "Master Bedroom",
     "status": "off",
-    "targetTemp": 24,
+    "targetTemp": 25,
     "currentTemp": 25,
     "humidity": 52,
     "mode": "off",
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:07:48.736Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-107",
@@ -78,16 +83,16 @@
     "brightness": 100,
     "color": "#ffffff",
     "powerDrawWatts": 15,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:07:43.358Z"
   },
   {
     "id": "dev-108",
     "name": "Smart Refrigerator Guard",
     "type": "appliance",
     "room": "Kitchen",
-    "status": "on",
+    "status": "off",
     "powerDrawWatts": 150,
-    "lastUpdated": "2026-09-20T07:02:46.437Z",
+    "lastUpdated": "2026-09-21T13:28:21.567Z",
     "updatedBy": "Admin"
   },
   {
@@ -95,7 +100,7 @@
     "name": "Garage Door Opener",
     "type": "lock",
     "room": "Garage",
-    "status": "closed",
+    "status": "locked",
     "batteryLevel": 88,
     "powerDrawWatts": 2,
     "lastUpdated": "2026-09-20T12:00:00Z"
@@ -105,11 +110,11 @@
     "name": "Porch Security Floodlight",
     "type": "light",
     "room": "Outdoor",
-    "status": "off",
-    "brightness": 0,
+    "status": "on",
+    "brightness": 100,
     "color": "#ffffff",
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T14:07:48.736Z"
   },
   {
     "id": "dev-111",
@@ -131,5 +136,16 @@
     "currentPowerKw": 1.39,
     "powerDrawWatts": 0,
     "lastUpdated": "2026-09-20T12:00:00Z"
+  },
+  {
+    "id": "dev-1789999326501",
+    "name": "Balcony Light",
+    "type": "light",
+    "room": "Living Room",
+    "status": "on",
+    "brightness": 100,
+    "powerDrawWatts": 15,
+    "lastUpdated": "2026-09-21T14:34:19.527Z",
+    "updatedBy": "Admin"
   }
 ]

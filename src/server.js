@@ -18,6 +18,8 @@ const ROUTINES_FILE = path.join(DATA_DIR, 'routines.json');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const LOGS_FILE = path.join(DATA_DIR, 'logs.json');
 const BUDGET_FILE = path.join(DATA_DIR, 'budget.json');
+const DIAGNOSTICS_FILE = path.join(DATA_DIR, 'diagnostics.json');
+
 
 
 // Helper to read JSON
@@ -243,6 +245,90 @@ app.put('/api/energy-budget', (req, res) => {
 
   res.json({ success: true, data: budget });
 });
+
+// Device Health Diagnostics & OTA Firmware Update API
+app.get('/api/diagnostics', (req, res) => {
+  const diagnostics = readJSON(DIAGNOSTICS_FILE);
+  const totalCount = diagnostics.length;
+  const warningCount = diagnostics.filter(d => d.status === 'warning').length;
+  const updateAvailableCount = diagnostics.filter(d => d.updateAvailable).length;
+
+  res.json({
+    success: true,
+    data: diagnostics,
+    summary: {
+      totalCount,
+      warningCount,
+      updateAvailableCount,
+      overallHealth: warningCount === 0 ? '100% Operational' : `${warningCount} Warning(s) Detected`
+    }
+  });
+});
+
+app.post('/api/diagnostics/firmware-update/:id', (req, res) => {
+  let diagnostics = readJSON(DIAGNOSTICS_FILE);
+  const item = diagnostics.find(d => d.deviceId === req.params.id);
+  if (!item) return res.status(404).json({ success: false, error: 'Diagnostic entry not found for device' });
+
+  if (!item.updateAvailable) {
+    return res.status(400).json({ success: false, error: 'No firmware update available for this device' });
+  }
+
+  const oldVer = item.firmwareVersion;
+  const newVer = item.updateAvailable;
+  item.firmwareVersion = newVer;
+  item.updateAvailable = null;
+  item.status = item.batteryLevel < 20 ? 'warning' : 'optimal';
+  item.issue = item.batteryLevel < 20 ? 'Low Battery Level' : 'System Normal';
+
+  writeJSON(DIAGNOSTICS_FILE, diagnostics);
+  addAuditLog(`OTA Firmware Update executed on '${item.deviceName}': upgraded from ${oldVer} to ${newVer}`, 'system', req.body.user || 'Admin');
+
+  res.json({ success: true, message: `Firmware upgraded successfully to ${newVer}`, data: item });
+});
+
+// -------------------------------------------------------------
+// SIGNIFICANT FEATURE: Emergency Safety Lockdown & Hazard Alarm System
+// -------------------------------------------------------------
+app.post('/api/emergency/trigger', (req, res) => {
+  const { hazardType, user } = req.body;
+  const devices = readJSON(DEVICES_FILE);
+  let actionsTaken = [];
+  const mode = hazardType || 'fire';
+
+  if (mode === 'fire' || mode === 'gas_leak') {
+    devices.forEach(d => {
+      if (d.type === 'lock') { d.status = 'unlocked'; actionsTaken.push(`${d.name} UNLOCKED for evacuation`); }
+      if (d.type === 'light') { d.status = 'on'; d.brightness = 100; actionsTaken.push(`${d.name} turned ON 100%`); }
+      if (d.type === 'thermostat') { d.status = 'off'; actionsTaken.push(`${d.name} turned OFF to prevent smoke circulation`); }
+    });
+  } else if (mode === 'intruder') {
+    devices.forEach(d => {
+      if (d.type === 'lock') { d.status = 'locked'; actionsTaken.push(`${d.name} LOCKED`); }
+      if (d.type === 'light' && d.room === 'Outdoor') { d.status = 'on'; d.brightness = 100; actionsTaken.push(`${d.name} turned ON`); }
+      if (d.type === 'camera') { d.status = 'recording'; actionsTaken.push(`${d.name} Armed`); }
+    });
+  }
+
+  writeJSON(DEVICES_FILE, devices);
+  addAuditLog(`🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard '${mode.toUpperCase()}'! Emergency protocol executed.`, 'security', user || 'System Alarm');
+
+  res.json({
+    success: true,
+    hazardType: mode,
+    status: 'ACTIVE_EMERGENCY',
+    message: `Emergency safety protocol executed for ${mode.toUpperCase()}.`,
+    actionsTaken
+  });
+});
+
+app.post('/api/emergency/reset', (req, res) => {
+  addAuditLog(`🟢 Emergency Hazard Alarm RESET by user. System returning to normal state.`, 'security', req.body.user || 'Admin');
+  res.json({ success: true, message: 'Emergency alarm state reset successfully.' });
+});
+
+
+
 
 
 // 3. Users API

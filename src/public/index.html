@@ -89,8 +89,35 @@
         </div>
       </header>
 
+      <!-- SIGNIFICANT FEATURE: Emergency Safety Lockdown System -->
+      <section class="panel-card emergency-panel" id="emergency-panel">
+        <div class="panel-header" style="margin-bottom: 8px;">
+          <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-red);"></i> Emergency Safety & Hazard Lockdown Control</h3>
+          <span class="badge" id="emergency-status-badge" style="background: rgba(74, 222, 128, 0.15); color: var(--accent-green);">SYSTEM NORMAL</span>
+        </div>
+
+        <div class="emergency-controls">
+          <button type="button" class="btn btn-sm btn-emergency-fire" id="btn-trigger-fire">
+            <i class="fa-solid fa-fire"></i> Trigger Fire Evacuation Protocol
+          </button>
+          <button type="button" class="btn btn-sm btn-emergency-intruder" id="btn-trigger-intruder">
+            <i class="fa-solid fa-user-ninja"></i> Trigger Intruder Lockdown
+          </button>
+          <button type="button" class="btn btn-sm btn-secondary" id="btn-reset-emergency">
+            <i class="fa-solid fa-rotate-left"></i> Reset System Safety
+          </button>
+        </div>
+
+        <div id="emergency-banner" class="emergency-alert-banner" style="display: none;">
+          <i class="fa-solid fa-shield-cat"></i>
+          <span id="emergency-banner-text">EMERGENCY PROTOCOL ACTIVE: All doors unlocked for immediate evacuation.</span>
+        </div>
+      </section>
+
+
       <!-- Live Environment Metric Cards -->
       <section class="metrics-grid">
+
         <div class="metric-card">
           <div class="metric-icon bg-orange">
             <i class="fa-solid fa-temperature-three-quarters"></i>
@@ -207,8 +234,20 @@
         </div>
       </section>
 
+      <!-- Device Health Diagnostics & OTA Updates Section -->
+      <section class="panel-card diagnostics-section">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-heart-pulse" style="color: var(--accent-purple);"></i> System Health & Device Diagnostics</h3>
+          <span class="badge" id="diag-summary-badge" style="background: rgba(192, 132, 252, 0.2); color: var(--accent-purple);">Overall Health: Loading...</span>
+        </div>
+        <div class="diagnostics-grid" id="diagnostics-grid">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </section>
+
       <!-- Live Security Surveillance Feed Section -->
       <section class="panel-card security-section">
+
         <div class="panel-header">
           <h3><i class="fa-solid fa-video" style="color: var(--accent-orange);"></i> CCTV Surveillance Monitor</h3>
           

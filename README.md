@@ -88,6 +88,7 @@ flowchart TD
     │   ├── devices.json                # Device definitions & states
     │   ├── routines.json               # Automation rules
     │   ├── budget.json                 # Monthly energy budget & tariff data
+    │   ├── diagnostics.json            # Device health, battery & firmware status
     │   ├── users.json                  # User roles & credentials
     │   └── logs.json                   # System audit logs
     ├── public/                         # Frontend Single Page App
@@ -115,7 +116,11 @@ The repository history tracks feature additions executed across distinct develop
 | `feature/rgb-color-palette` | Added Interactive RGB Smart Lighting Color Swatch Palette | Merged -> `main` |
 | `feature/cctv-surveillance-monitor` | Added CCTV Surveillance Monitor (Cam 1/2/3 switching & motion alert) | Merged -> `main` |
 | `feature/2d-floorplan-heatmap` | Added Interactive 2D Smart House Floorplan Heatmap view | Merged -> `main` |
-| `feature/custom-rule-builder-and-energy-budgeting` | **NEW FEATURE:** Added Custom Automation Rule Creator Engine & Energy Budget Tariff Estimator API | Merged -> `main` |
+| `feature/custom-rule-builder-and-energy-budgeting` | Added Custom Automation Rule Creator Engine & Energy Budget Tariff Estimator | Merged -> `main` |
+| `feature/predictive-health-diagnostics` | Added Device Health Diagnostics, Low Battery Alerts & OTA Firmware Updates | Merged -> `main` |
+| `feature/emergency-safety-lockdown` | **FLAGSHIP FEATURE:** Added Emergency Safety Lockdown & Hazard Alarm System (Fire Evacuation Protocol & Intruder Lockdown) | Merged -> `main` |
+
+
 
 ---
 

@@ -50,7 +50,86 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchRoutines();
     await fetchLogs();
     await fetchEnergyBudget();
+    await fetchDiagnostics();
   }
+
+  // Fetch Device Health Diagnostics & OTA Firmware Data
+  async function fetchDiagnostics() {
+    try {
+      const res = await fetch('/api/diagnostics');
+      const data = await res.json();
+      if (data.success) {
+        renderDiagnostics(data.data, data.summary);
+      }
+    } catch (err) {
+      console.error('Error fetching diagnostics:', err);
+    }
+  }
+
+  function renderDiagnostics(items, summary) {
+    const diagGrid = document.getElementById('diagnostics-grid');
+    const badge = document.getElementById('diag-summary-badge');
+    if (!diagGrid) return;
+
+    if (badge) badge.innerText = `Overall Health: ${summary.overallHealth}`;
+
+    diagGrid.innerHTML = '';
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = `diag-card ${item.status}`;
+      
+      const updateBtn = item.updateAvailable 
+        ? `<button class="btn-ota btn-update-fw" data-id="${item.deviceId}"><i class="fa-solid fa-cloud-arrow-down"></i> Update ${item.updateAvailable}</button>` 
+        : `<span class="badge" style="background: rgba(255,255,255,0.05); border: none;">Up to date (${item.firmwareVersion})</span>`;
+
+      card.innerHTML = `
+        <div class="diag-header">
+          <h4>${item.deviceName}</h4>
+          <span class="badge" style="background: rgba(255,255,255,0.06);">${item.firmwareVersion}</span>
+        </div>
+        <p class="diag-issue">${item.issue}</p>
+        <div class="diag-meta">
+          <span>🔋 Battery: <strong>${item.batteryLevel}%</strong></span>
+          <span>📶 Signal: <strong>${item.wifiSignalRssi} dBm</strong></span>
+        </div>
+        <div style="margin-top: 6px;">
+          ${updateBtn}
+        </div>
+      `;
+
+      diagGrid.appendChild(card);
+    });
+
+    // Attach OTA Update Listeners
+    document.querySelectorAll('.btn-update-fw').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (currentUserRole === 'Guest') {
+          alert('Guests are restricted from triggering OTA firmware updates.');
+          return;
+        }
+        const id = btn.getAttribute('data-id');
+        await triggerFirmwareUpdate(id);
+      });
+    });
+  }
+
+  async function triggerFirmwareUpdate(deviceId) {
+    try {
+      const res = await fetch(`/api/diagnostics/firmware-update/${deviceId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: currentUserRole })
+      });
+      const data = await res.json();
+      if (data.success) {
+        await fetchDiagnostics();
+        await fetchLogs();
+      }
+    } catch (err) {
+      console.error('Error triggering firmware update:', err);
+    }
+  }
+
 
   // Fetch Energy Budget & Tariff Estimator Data
   async function fetchEnergyBudget() {
@@ -697,10 +776,72 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
 
+  // Emergency Safety System Handlers
+  const btnTriggerFire = document.getElementById('btn-trigger-fire');
+  const btnTriggerIntruder = document.getElementById('btn-trigger-intruder');
+  const btnResetEmergency = document.getElementById('btn-reset-emergency');
+  const emergencyBanner = document.getElementById('emergency-banner');
+  const emergencyBannerText = document.getElementById('emergency-banner-text');
+  const emergencyStatusBadge = document.getElementById('emergency-status-badge');
+
+  async function triggerEmergency(hazardType) {
+    try {
+      const res = await fetch('/api/emergency/trigger', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hazardType, user: currentUserRole })
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (emergencyBanner) emergencyBanner.style.display = 'flex';
+        if (emergencyBannerText) emergencyBannerText.innerText = `🚨 CRITICAL ALERT: ${data.message} (${data.actionsTaken.length} actions executed)`;
+        if (emergencyStatusBadge) {
+          emergencyStatusBadge.innerText = `EMERGENCY: ${hazardType.toUpperCase()}`;
+          emergencyStatusBadge.style.background = 'rgba(248, 113, 113, 0.25)';
+          emergencyStatusBadge.style.color = 'var(--accent-red)';
+        }
+        await fetchDevices();
+        await fetchLogs();
+      }
+    } catch (err) {
+      console.error('Error triggering emergency:', err);
+    }
+  }
+
+  if (btnTriggerFire) btnTriggerFire.addEventListener('click', () => triggerEmergency('fire'));
+  if (btnTriggerIntruder) btnTriggerIntruder.addEventListener('click', () => triggerEmergency('intruder'));
+
+  if (btnResetEmergency) {
+    btnResetEmergency.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/emergency/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user: currentUserRole })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (emergencyBanner) emergencyBanner.style.display = 'none';
+          if (emergencyStatusBadge) {
+            emergencyStatusBadge.innerText = 'SYSTEM NORMAL';
+            emergencyStatusBadge.style.background = 'rgba(74, 222, 128, 0.15)';
+            emergencyStatusBadge.style.color = 'var(--accent-green)';
+          }
+          await fetchDevices();
+          await fetchLogs();
+        }
+      } catch (err) {
+        console.error('Error resetting emergency:', err);
+      }
+    });
+  }
+
+
   if (btnRefreshLogs) {
     btnRefreshLogs.addEventListener('click', fetchLogs);
   }
 
   // Initialize
   await loadInitialData();
+
 });

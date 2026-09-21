@@ -1,5 +1,152 @@
 [
   {
+    "id": "log-1790001697494",
+    "timestamp": "2026-09-21T14:41:37.494Z",
+    "type": "security",
+    "user": "Test Admin",
+    "message": "🟢 Emergency Hazard Alarm RESET by user. System returning to normal state."
+  },
+  {
+    "id": "log-1790001697489",
+    "timestamp": "2026-09-21T14:41:37.489Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'INTRUDER'! Emergency protocol executed."
+  },
+  {
+    "id": "log-1790001697483",
+    "timestamp": "2026-09-21T14:41:37.483Z",
+    "type": "security",
+    "user": "Test User",
+    "message": "🚨 CRITICAL EMERGENCY ALARM TRIGGERED: Hazard 'FIRE'! Emergency protocol executed."
+  },
+  {
+    "id": "log-1790001341933",
+    "timestamp": "2026-09-21T14:35:41.933Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to ON"
+  },
+  {
+    "id": "log-1790001340999",
+    "timestamp": "2026-09-21T14:35:40.999Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to OFF"
+  },
+  {
+    "id": "log-1790001259528",
+    "timestamp": "2026-09-21T14:34:19.528Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Balcony Light' status set to ON"
+  },
+  {
+    "id": "log-1790001258132",
+    "timestamp": "2026-09-21T14:34:18.132Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Balcony Light' status set to OFF"
+  },
+  {
+    "id": "log-1790001257018",
+    "timestamp": "2026-09-21T14:34:17.019Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Balcony Light' status set to ON"
+  },
+  {
+    "id": "log-1789999668738",
+    "timestamp": "2026-09-21T14:07:48.739Z",
+    "type": "routine",
+    "user": "Admin User",
+    "message": "Automation Routine executed: 'Energy Saver Mode' (4 devices updated)"
+  },
+  {
+    "id": "log-1789999666188",
+    "timestamp": "2026-09-21T14:07:46.188Z",
+    "type": "routine",
+    "user": "Admin User",
+    "message": "Automation Routine executed: 'Movie Time Scene' (6 devices updated)"
+  },
+  {
+    "id": "log-1789999663361",
+    "timestamp": "2026-09-21T14:07:43.361Z",
+    "type": "routine",
+    "user": "Admin User",
+    "message": "Automation Routine executed: 'Night Mode' (7 devices updated)"
+  },
+  {
+    "id": "log-1789999326505",
+    "timestamp": "2026-09-21T14:02:06.505Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "New smart device added: 'Balcony Light' in Living Room"
+  },
+  {
+    "id": "log-1789997305098",
+    "timestamp": "2026-09-21T13:28:25.098Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to ON"
+  },
+  {
+    "id": "log-1789997304211",
+    "timestamp": "2026-09-21T13:28:24.211Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to ON"
+  },
+  {
+    "id": "log-1789997303122",
+    "timestamp": "2026-09-21T13:28:23.122Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Bedroom AC Unit' status set to ON"
+  },
+  {
+    "id": "log-1789997301568",
+    "timestamp": "2026-09-21T13:28:21.568Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Smart Refrigerator Guard' status set to OFF"
+  },
+  {
+    "id": "log-1789997299606",
+    "timestamp": "2026-09-21T13:28:19.606Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Front Door Smart Lock' status set to UNLOCKED"
+  },
+  {
+    "id": "log-1789997298695",
+    "timestamp": "2026-09-21T13:28:18.695Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' status set to OFF"
+  },
+  {
+    "id": "log-1789997297749",
+    "timestamp": "2026-09-21T13:28:17.749Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to OFF"
+  },
+  {
+    "id": "log-1789997296845",
+    "timestamp": "2026-09-21T13:28:16.846Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Ambient Strip' status set to OFF"
+  },
+  {
+    "id": "log-1789912515770",
+    "timestamp": "2026-09-20T13:55:15.770Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Ambient Strip' status set to ON"
+  },
+  {
     "id": "log-1789887766438",
     "timestamp": "2026-09-20T07:02:46.438Z",
     "type": "device",
