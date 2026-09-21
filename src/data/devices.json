@@ -8,7 +8,8 @@
     "brightness": 85,
     "color": "#fffaed",
     "powerDrawWatts": 12,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:16.964Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-102",
@@ -16,10 +17,11 @@
     "type": "light",
     "room": "Living Room",
     "status": "on",
-    "brightness": 50,
+    "brightness": 42,
     "color": "#00f2fe",
     "powerDrawWatts": 8,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:46.189Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-103",
@@ -27,12 +29,13 @@
     "type": "thermostat",
     "room": "Living Room",
     "status": "on",
-    "targetTemp": 22,
+    "targetTemp": 25,
     "currentTemp": 24.5,
     "humidity": 48,
     "mode": "cool",
     "powerDrawWatts": 1200,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:51.491Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-104",
@@ -42,7 +45,8 @@
     "status": "locked",
     "batteryLevel": 92,
     "powerDrawWatts": 0.5,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:22.139Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-105",
@@ -53,7 +57,7 @@
     "brightness": 0,
     "color": "#ffffff",
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T07:02:10.559Z",
+    "lastUpdated": "2026-09-21T03:27:43.947Z",
     "updatedBy": "Admin"
   },
   {
@@ -67,7 +71,8 @@
     "humidity": 52,
     "mode": "off",
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:29.989Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-107",
@@ -78,7 +83,8 @@
     "brightness": 100,
     "color": "#ffffff",
     "powerDrawWatts": 15,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:42.233Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-108",
@@ -95,10 +101,11 @@
     "name": "Garage Door Opener",
     "type": "lock",
     "room": "Garage",
-    "status": "closed",
+    "status": "unlocked",
     "batteryLevel": 88,
     "powerDrawWatts": 2,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:34.268Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-110",
@@ -109,7 +116,8 @@
     "brightness": 0,
     "color": "#ffffff",
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:38.908Z",
+    "updatedBy": "Admin"
   },
   {
     "id": "dev-111",
@@ -126,10 +134,11 @@
     "name": "Main Smart Energy Meter",
     "type": "meter",
     "room": "Utility Room",
-    "status": "active",
+    "status": "off",
     "totalTodayKWh": 14.8,
     "currentPowerKw": 1.39,
     "powerDrawWatts": 0,
-    "lastUpdated": "2026-09-20T12:00:00Z"
+    "lastUpdated": "2026-09-21T03:27:32.884Z",
+    "updatedBy": "Admin"
   }
 ]
