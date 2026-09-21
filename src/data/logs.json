@@ -1,5 +1,257 @@
 [
   {
+    "id": "log-1789961271493",
+    "timestamp": "2026-09-21T03:27:51.493Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961271237",
+    "timestamp": "2026-09-21T03:27:51.237Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961271038",
+    "timestamp": "2026-09-21T03:27:51.038Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961270205",
+    "timestamp": "2026-09-21T03:27:50.205Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961269980",
+    "timestamp": "2026-09-21T03:27:49.980Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961269751",
+    "timestamp": "2026-09-21T03:27:49.751Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961268989",
+    "timestamp": "2026-09-21T03:27:48.989Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961268759",
+    "timestamp": "2026-09-21T03:27:48.759Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961268213",
+    "timestamp": "2026-09-21T03:27:48.213Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' updated"
+  },
+  {
+    "id": "log-1789961266192",
+    "timestamp": "2026-09-21T03:27:46.192Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Ambient Strip' status set to ON"
+  },
+  {
+    "id": "log-1789961263950",
+    "timestamp": "2026-09-21T03:27:43.950Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to OFF"
+  },
+  {
+    "id": "log-1789961263317",
+    "timestamp": "2026-09-21T03:27:43.317Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to ON"
+  },
+  {
+    "id": "log-1789961262235",
+    "timestamp": "2026-09-21T03:27:42.235Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Kitchen Pendant Lights' status set to ON"
+  },
+  {
+    "id": "log-1789961261542",
+    "timestamp": "2026-09-21T03:27:41.542Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Kitchen Pendant Lights' status set to ON"
+  },
+  {
+    "id": "log-1789961258910",
+    "timestamp": "2026-09-21T03:27:38.910Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Porch Security Floodlight' status set to OFF"
+  },
+  {
+    "id": "log-1789961256843",
+    "timestamp": "2026-09-21T03:27:36.843Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Porch Security Floodlight' status set to ON"
+  },
+  {
+    "id": "log-1789961254270",
+    "timestamp": "2026-09-21T03:27:34.270Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Garage Door Opener' status set to UNLOCKED"
+  },
+  {
+    "id": "log-1789961253734",
+    "timestamp": "2026-09-21T03:27:33.734Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Garage Door Opener' status set to LOCKED"
+  },
+  {
+    "id": "log-1789961252887",
+    "timestamp": "2026-09-21T03:27:32.887Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Main Smart Energy Meter' status set to OFF"
+  },
+  {
+    "id": "log-1789961252464",
+    "timestamp": "2026-09-21T03:27:32.464Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Main Smart Energy Meter' status set to ON"
+  },
+  {
+    "id": "log-1789961251966",
+    "timestamp": "2026-09-21T03:27:31.966Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Main Smart Energy Meter' status set to OFF"
+  },
+  {
+    "id": "log-1789961251509",
+    "timestamp": "2026-09-21T03:27:31.509Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Main Smart Energy Meter' status set to ON"
+  },
+  {
+    "id": "log-1789961249991",
+    "timestamp": "2026-09-21T03:27:29.991Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Bedroom AC Unit' status set to OFF"
+  },
+  {
+    "id": "log-1789961249565",
+    "timestamp": "2026-09-21T03:27:29.565Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Bedroom AC Unit' status set to ON"
+  },
+  {
+    "id": "log-1789961248022",
+    "timestamp": "2026-09-21T03:27:28.022Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to OFF"
+  },
+  {
+    "id": "log-1789961247528",
+    "timestamp": "2026-09-21T03:27:27.528Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Master Bedroom Ceiling Light' status set to ON"
+  },
+  {
+    "id": "log-1789961242141",
+    "timestamp": "2026-09-21T03:27:22.141Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Front Door Smart Lock' status set to LOCKED"
+  },
+  {
+    "id": "log-1789961241694",
+    "timestamp": "2026-09-21T03:27:21.694Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Front Door Smart Lock' status set to UNLOCKED"
+  },
+  {
+    "id": "log-1789961240679",
+    "timestamp": "2026-09-21T03:27:20.679Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' status set to ON"
+  },
+  {
+    "id": "log-1789961240198",
+    "timestamp": "2026-09-21T03:27:20.198Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Central HVAC Thermostat' status set to OFF"
+  },
+  {
+    "id": "log-1789961238772",
+    "timestamp": "2026-09-21T03:27:18.772Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Ambient Strip' status set to ON"
+  },
+  {
+    "id": "log-1789961238052",
+    "timestamp": "2026-09-21T03:27:18.052Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Ambient Strip' status set to OFF"
+  },
+  {
+    "id": "log-1789961236966",
+    "timestamp": "2026-09-21T03:27:16.966Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to ON"
+  },
+  {
+    "id": "log-1789961235837",
+    "timestamp": "2026-09-21T03:27:15.837Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to OFF"
+  },
+  {
+    "id": "log-1789961234917",
+    "timestamp": "2026-09-21T03:27:14.917Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to ON"
+  },
+  {
+    "id": "log-1789961234642",
+    "timestamp": "2026-09-21T03:27:14.642Z",
+    "type": "device",
+    "user": "Admin",
+    "message": "Device 'Living Room Main Light' status set to OFF"
+  },
+  {
     "id": "log-1789887766438",
     "timestamp": "2026-09-20T07:02:46.438Z",
     "type": "device",

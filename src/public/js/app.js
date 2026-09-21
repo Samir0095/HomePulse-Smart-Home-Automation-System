@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentStatusFilter = 'all';
   let searchQuery = '';
   let currentUserRole = 'Admin';
+  
+  // PR #1: Tab Navigation State
+  let currentTab = 'dashboard';
 
   // DOM Elements
   const devicesGrid = document.getElementById('devices-grid');
@@ -501,8 +504,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }, 1000);
 
-
-
   // Role Switcher Event Listener
   if (roleSelector) {
     roleSelector.addEventListener('change', (e) => {
@@ -513,7 +514,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (currentUserRole === 'Admin') {
         if (userNameElem) userNameElem.innerText = 'Sarah Connor';
         if (avatarElem) avatarElem.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah';
-        if (btnAddDevice) btnAddDevice.style.display = 'inline-flex';
+        if (btnAddDevice) {
+          // PR #1: Respect current tab when showing Add Device button
+          const allowed = (currentTab === 'dashboard' || currentTab === 'rooms');
+          btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
+        }
       } else if (currentUserRole === 'Resident') {
         if (userNameElem) userNameElem.innerText = 'Alex Connor';
         if (avatarElem) avatarElem.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex';
@@ -565,6 +570,55 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (btnRefreshLogs) {
     btnRefreshLogs.addEventListener('click', fetchLogs);
   }
+
+  // =====================================================
+  // PR #1: Sidebar Tab Navigation System
+  // =====================================================
+  const pageTitles = {
+    dashboard: { title: 'Dashboard Overview', subtitle: 'Real-time status of your connected smart home environment' },
+    rooms: { title: 'Rooms & Devices Management', subtitle: 'Control and monitor devices room by room' },
+    routines: { title: 'Automation Routines', subtitle: 'Trigger scenes and manage automated workflows' },
+    analytics: { title: 'Energy Analytics', subtitle: 'Detailed power consumption and efficiency reports' },
+    logs: { title: 'System Audit Logs', subtitle: 'Chronological history of all system events' }
+  };
+
+  function switchTab(tabName) {
+    currentTab = tabName;
+
+    // 1. Toggle Page Visibility
+    document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active'));
+    const targetPage = document.getElementById('page-' + tabName);
+    if (targetPage) targetPage.classList.add('active');
+
+    // 2. Update Sidebar Highlight
+    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+    const targetNav = document.querySelector('.nav-item[data-tab="' + tabName + '"]');
+    if (targetNav) targetNav.classList.add('active');
+
+    // 3. Update Page Title & Subtitle
+    const info = pageTitles[tabName];
+    if (info) {
+      document.getElementById('page-title').innerText = info.title;
+      document.querySelector('.subtitle').innerText = info.subtitle;
+    }
+
+    // 4. Manage "Add Device" Button Visibility
+    if (btnAddDevice) {
+      // Only show on Dashboard or Rooms pages, and only for Admins
+      const allowed = (tabName === 'dashboard' || tabName === 'rooms') && currentUserRole === 'Admin';
+      btnAddDevice.style.display = allowed ? 'inline-flex' : 'none';
+    }
+  }
+
+  // Attach Click Listeners to Sidebar Items
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent default anchor jump
+      const tab = item.getAttribute('data-tab');
+      if (tab) switchTab(tab);
+    });
+  });
+  // =====================================================
 
   // Initialize
   await loadInitialData();

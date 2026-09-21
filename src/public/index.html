@@ -70,7 +70,7 @@
     <!-- Main Content Area -->
     <main class="main-content">
       
-      <!-- Header -->
+      <!-- Header (Persistent across all pages) -->
       <header class="top-header">
         <div class="header-title">
           <h1 id="page-title">Dashboard Overview</h1>
@@ -89,172 +89,198 @@
         </div>
       </header>
 
-      <!-- Live Environment Metric Cards -->
-      <section class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-icon bg-orange">
-            <i class="fa-solid fa-temperature-three-quarters"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Indoor Temp</span>
-            <h3 id="stat-temp">24.5 °C</h3>
-            <span class="metric-sub text-success">Target: 22°C</span>
-          </div>
-        </div>
+      <!-- ================= PR #1: PAGE SYSTEM ================= -->
 
-        <div class="metric-card">
-          <div class="metric-icon bg-blue">
-            <i class="fa-solid fa-droplet"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Indoor Humidity</span>
-            <h3 id="stat-humidity">48 %</h3>
-            <span class="metric-sub">Optimal Comfort</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon bg-green">
-            <i class="fa-solid fa-bolt"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Active Power</span>
-            <h3 id="stat-power">1.39 kW</h3>
-            <span class="metric-sub" id="stat-daily-kwh">14.8 kWh today</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon bg-purple">
-            <i class="fa-solid fa-microchip"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Active Devices</span>
-            <h3 id="stat-active-devices">5 / 12</h3>
-            <span class="metric-sub text-success">All systems normal</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon bg-yellow">
-            <i class="fa-solid fa-sun"></i>
-          </div>
-          <div class="metric-data">
-            <span class="metric-label">Solar & Weather</span>
-            <h3 id="stat-solar">3.4 kW Solar</h3>
-            <span class="metric-sub" id="stat-weather">28°C Partly Cloudy (AQI 38)</span>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- Interactive 2D House Floorplan Section -->
-      <section class="floorplan-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-house-chimney-window" style="color: var(--primary);"></i> Smart House 2D Floorplan & Heatmap</h3>
-          <span class="badge">Real-Time Sync</span>
-        </div>
-        <div class="floorplan-grid" id="floorplan-grid">
-          <!-- Dynamically populated by app.js -->
-        </div>
-      </section>
-
-      <!-- Quick Automation Routines Bar -->
-      <section class="routines-section">
-
-        <div class="section-header">
-          <h3><i class="fa-solid fa-bolt-lightning"></i> Quick Automation Routines</h3>
-          <span class="badge">One-Click Scenes</span>
-        </div>
-        <div id="routines-grid" class="routines-grid">
-          <!-- Dynamically filled by app.js -->
-        </div>
-      </section>
-
-      <!-- Room Filter Tabs & Device Grid -->
-      <section class="devices-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-sliders"></i> Smart Devices & Modules</h3>
-          
-          <div class="room-filters" id="room-filters">
-            <button class="filter-btn active" data-room="all">All Rooms</button>
-            <button class="filter-btn" data-room="Living Room">Living Room</button>
-            <button class="filter-btn" data-room="Master Bedroom">Master Bedroom</button>
-            <button class="filter-btn" data-room="Kitchen">Kitchen</button>
-            <button class="filter-btn" data-room="Outdoor">Outdoor / Security</button>
-          </div>
-        </div>
-
-        <!-- Search & Status Filter Controls -->
-        <div class="search-filter-bar">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="search-devices" placeholder="Search devices by name, room, or type...">
-          </div>
-          <div class="status-filters" id="status-filters">
-            <button class="status-btn active" data-status="all">All States</button>
-            <button class="status-btn" data-status="on">🟢 Active Only</button>
-            <button class="status-btn" data-status="off">⚪ Inactive</button>
-          </div>
-        </div>
-
-        <div id="devices-grid" class="devices-grid">
-
-          <!-- Dynamically filled by app.js -->
-        </div>
-      </section>
-
-      <!-- Live Security Surveillance Feed Section -->
-      <section class="panel-card security-section">
-        <div class="panel-header">
-          <h3><i class="fa-solid fa-video" style="color: var(--accent-orange);"></i> CCTV Surveillance Monitor</h3>
-          
-          <div class="cam-channels" id="cam-channels">
-            <button class="cam-btn active" data-cam="cam-1">Cam 1: Driveway</button>
-            <button class="cam-btn" data-cam="cam-2">Cam 2: Porch</button>
-            <button class="cam-btn" data-cam="cam-3">Cam 3: Garage</button>
-          </div>
-        </div>
-
-        <div class="camera-feed-container">
-          <div class="camera-viewport" id="camera-viewport">
-            <div class="cam-overlay-top">
-              <span class="cam-badge"><span class="pulse-dot-red"></span> LIVE 1080P</span>
-              <span class="cam-title" id="cam-active-title">CAM 01 — DRIVEWAY SECURITY</span>
-              <span class="cam-clock" id="cam-clock">2026-09-20 15:03:34</span>
+      <!-- PAGE 1: DASHBOARD (Active by default) -->
+      <section id="page-dashboard" class="app-page active">
+        
+        <!-- Live Environment Metric Cards -->
+        <section class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon bg-orange">
+              <i class="fa-solid fa-temperature-three-quarters"></i>
             </div>
-
-            <div class="motion-box" id="motion-box">
-              <span class="motion-label">MOTION DETECTED (VEHICLE)</span>
+            <div class="metric-data">
+              <span class="metric-label">Indoor Temp</span>
+              <h3 id="stat-temp">24.5 °C</h3>
+              <span class="metric-sub text-success">Target: 22°C</span>
             </div>
-
-            <div class="cam-grid-overlay"></div>
           </div>
-        </div>
-      </section>
 
-      <!-- Energy Analytics & Audit Logs Section -->
-      <div class="two-column-grid">
-
-        <section class="panel-card">
-          <div class="panel-header">
-            <h3><i class="fa-solid fa-chart-simple"></i> Live Energy Consumption Analytics</h3>
+          <div class="metric-card">
+            <div class="metric-icon bg-blue">
+              <i class="fa-solid fa-droplet"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Indoor Humidity</span>
+              <h3 id="stat-humidity">48 %</h3>
+              <span class="metric-sub">Optimal Comfort</span>
+            </div>
           </div>
-          <div class="chart-container">
-            <canvas id="energyChart"></canvas>
+
+          <div class="metric-card">
+            <div class="metric-icon bg-green">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Active Power</span>
+              <h3 id="stat-power">1.39 kW</h3>
+              <span class="metric-sub" id="stat-daily-kwh">14.8 kWh today</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon bg-purple">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Active Devices</span>
+              <h3 id="stat-active-devices">5 / 12</h3>
+              <span class="metric-sub text-success">All systems normal</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon bg-yellow">
+              <i class="fa-solid fa-sun"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Solar & Weather</span>
+              <h3 id="stat-solar">3.4 kW Solar</h3>
+              <span class="metric-sub" id="stat-weather">28°C Partly Cloudy (AQI 38)</span>
+            </div>
           </div>
         </section>
 
-        <section class="panel-card">
-          <div class="panel-header">
-            <h3><i class="fa-solid fa-clock-rotate-left"></i> System Audit Trail</h3>
-            <button id="btn-refresh-logs" class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrows-rotate"></i></button>
+        <!-- Interactive 2D House Floorplan Section -->
+        <section class="floorplan-section">
+          <div class="section-header">
+            <h3><i class="fa-solid fa-house-chimney-window" style="color: var(--primary);"></i> Smart House 2D Floorplan & Heatmap</h3>
+            <span class="badge">Real-Time Sync</span>
           </div>
-          <div id="logs-list" class="logs-list">
-            <!-- Dynamically filled by app.js -->
+          <div class="floorplan-grid" id="floorplan-grid"></div>
+        </section>
+
+        <!-- Quick Automation Routines Bar -->
+        <section class="routines-section">
+          <div class="section-header">
+            <h3><i class="fa-solid fa-bolt-lightning"></i> Quick Automation Routines</h3>
+            <span class="badge">One-Click Scenes</span>
+          </div>
+          <div id="routines-grid" class="routines-grid"></div>
+        </section>
+
+        <!-- Room Filter Tabs & Device Grid -->
+        <section class="devices-section">
+          <div class="section-header">
+            <h3><i class="fa-solid fa-sliders"></i> Smart Devices & Modules</h3>
+            <div class="room-filters" id="room-filters">
+              <button class="filter-btn active" data-room="all">All Rooms</button>
+              <button class="filter-btn" data-room="Living Room">Living Room</button>
+              <button class="filter-btn" data-room="Master Bedroom">Master Bedroom</button>
+              <button class="filter-btn" data-room="Kitchen">Kitchen</button>
+              <button class="filter-btn" data-room="Outdoor">Outdoor / Security</button>
+            </div>
+          </div>
+
+          <div class="search-filter-bar">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="search-devices" placeholder="Search devices by name, room, or type...">
+            </div>
+            <div class="status-filters" id="status-filters">
+              <button class="status-btn active" data-status="all">All States</button>
+              <button class="status-btn" data-status="on">🟢 Active Only</button>
+              <button class="status-btn" data-status="off">⚪ Inactive</button>
+            </div>
+          </div>
+
+          <div id="devices-grid" class="devices-grid"></div>
+        </section>
+
+        <!-- Live Security Surveillance Feed Section -->
+        <section class="panel-card security-section">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-video" style="color: var(--accent-orange);"></i> CCTV Surveillance Monitor</h3>
+            <div class="cam-channels" id="cam-channels">
+              <button class="cam-btn active" data-cam="cam-1">Cam 1: Driveway</button>
+              <button class="cam-btn" data-cam="cam-2">Cam 2: Porch</button>
+              <button class="cam-btn" data-cam="cam-3">Cam 3: Garage</button>
+            </div>
+          </div>
+
+          <div class="camera-feed-container">
+            <div class="camera-viewport" id="camera-viewport">
+              <div class="cam-overlay-top">
+                <span class="cam-badge"><span class="pulse-dot-red"></span> LIVE 1080P</span>
+                <span class="cam-title" id="cam-active-title">CAM 01 — DRIVEWAY SECURITY</span>
+                <span class="cam-clock" id="cam-clock">2026-09-20 15:03:34</span>
+              </div>
+              <div class="motion-box" id="motion-box">
+                <span class="motion-label">MOTION DETECTED (VEHICLE)</span>
+              </div>
+              <div class="cam-grid-overlay"></div>
+            </div>
           </div>
         </section>
-      </div>
+
+        <!-- Energy Analytics & Audit Logs Section (Dashboard View) -->
+        <div class="two-column-grid">
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-simple"></i> Live Energy Consumption Analytics</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="energyChart"></canvas>
+            </div>
+          </section>
+
+          <section class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-clock-rotate-left"></i> System Audit Trail</h3>
+              <button id="btn-refresh-logs" class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
+            <div id="logs-list" class="logs-list"></div>
+          </section>
+        </div>
+
+      </section> <!-- END page-dashboard -->
+
+      <!-- PAGE 2: ROOMS & DEVICES (Placeholder for PR #2) -->
+      <section id="page-rooms" class="app-page">
+        <div class="panel-card" style="padding: 60px; text-align: center;">
+          <i class="fa-solid fa-couch" style="font-size: 48px; color: var(--primary); margin-bottom: 20px;"></i>
+          <h2>Rooms & Devices Manager</h2>
+          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Full room-grouped device management interface coming in the next update.</p>
+        </div>
+      </section>
+
+      <!-- PAGE 3: AUTOMATIONS (Placeholder for PR #2) -->
+      <section id="page-routines" class="app-page">
+        <div class="panel-card" style="padding: 60px; text-align: center;">
+          <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 48px; color: var(--accent-purple); margin-bottom: 20px;"></i>
+          <h2>Automation Routine Manager</h2>
+          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Advanced routine scheduling and execution engine coming in the next update.</p>
+        </div>
+      </section>
+
+      <!-- PAGE 4: ENERGY ANALYTICS (Placeholder for PR #3) -->
+      <section id="page-analytics" class="app-page">
+        <div class="panel-card" style="padding: 60px; text-align: center;">
+          <i class="fa-solid fa-chart-line" style="font-size: 48px; color: var(--accent-green); margin-bottom: 20px;"></i>
+          <h2>Deep Energy Analytics</h2>
+          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Detailed hourly consumption charts and cost analysis coming in the next update.</p>
+        </div>
+      </section>
+
+      <!-- PAGE 5: AUDIT LOGS (Placeholder for PR #4) -->
+      <section id="page-logs" class="app-page">
+        <div class="panel-card" style="padding: 60px; text-align: center;">
+          <i class="fa-solid fa-list-check" style="font-size: 48px; color: var(--accent-orange); margin-bottom: 20px;"></i>
+          <h2>System Audit Log Viewer</h2>
+          <p style="color: var(--text-muted); margin-top: 10px; font-size: 16px;">Searchable, exportable system event history coming in the next update.</p>
+        </div>
+      </section>
 
     </main>
   </div>
